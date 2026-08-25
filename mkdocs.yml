@@ -1,4 +1,5 @@
 site_name: Central de Tutoriais AlternaTribe
+site_url: https://alternatribe.github.io/
 
 theme:
   name: material
