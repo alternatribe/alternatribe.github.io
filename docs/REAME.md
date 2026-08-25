@@ -1,3 +1,3 @@
-# Bem-vindo ao Portal de Tutoriais e Documentações AlternaTribe
+# Bem-vindo a Central de Tutoriais AlternaTribe
 
 Este repositório centraliza tutoriais, guias, padrões e configurações globais.

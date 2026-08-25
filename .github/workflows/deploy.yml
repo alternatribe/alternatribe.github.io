@@ -1,0 +1,25 @@
+name: Publicar Documentação
+on:
+  push:
+    branches:
+      - main # Roda sempre que você der push na branch principal
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-node-version: 3.x
+
+      - name: Instalar MkDocs Material
+        run: pip install mkdocs-material
+
+      - name: Compilar e Publicar no GitHub Pages
+        run: mkdocs gh-deploy --force
