@@ -2,7 +2,7 @@ site_name: Central de Tutoriais AlternaTribe
 site_url: https://alternatribe.github.io/
 
 theme:
-  name: material
+  name: readthedocs
   language: pt-BR
   features:
     - navigation.expand   # Deixa as pastas do menu expansíveis
@@ -13,7 +13,6 @@ theme:
 plugins:
   - search                # Ativa o sistema de busca em todo o site
   - awesome-pages         # Ativa o organizador automático de menu
-  - mkdocs-minify-plugin  # Minifica o HTML gerado para melhorar performance
 
 markdown_extensions:
   - admonition                # Caixas de aviso coloridas (!!! note, !!! danger)
