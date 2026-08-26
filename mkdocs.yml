@@ -7,8 +7,16 @@ theme:
   features:
     - navigation.expand   # Deixa as pastas do menu expansíveis
     - search.suggest      # Ativa sugestões na busca global
+    - search.highlight    # Destaca os termos buscados na página
     - content.code.copy   # Adiciona um botão de "Copiar" nos blocos de código
+    
+extra_css:
+  - stylesheets/custom.css
 
+copyright: "" 
+
+extra:
+    generator: false      # Desativa o link oculto "Feito com MkDocs" nos créditos
 
 plugins:
   - search                # Ativa o sistema de busca em todo o site
@@ -20,4 +28,9 @@ markdown_extensions:
   - pymdownx.superfences      # Permite colocar códigos dentro das caixas de aviso
   - pymdownx.highlight:       # Coloração automática de código (Codehilite)
       anchor_linenums: true   # Permite linkar linhas específicas de código
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
 

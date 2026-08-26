@@ -1,0 +1,4 @@
+/* Esconde o rodapé inteiro e remove o espaçamento inferior */
+.md-footer {
+  display: none !important;
+}
