@@ -9,7 +9,9 @@ theme:
     - search.suggest      # Ativa sugestões na busca global
     - search.highlight    # Destaca os termos buscados na página
     - content.code.copy   # Adiciona um botão de "Copiar" nos blocos de código
-    
+    - toc.follow          # Índice direito acompanha a rolagem da página 📌
+
+
 extra_css:
   - stylesheets/custom.css
 
@@ -21,9 +23,13 @@ extra:
 plugins:
   - search                # Ativa o sistema de busca em todo o site
   - awesome-pages         # Ativa o organizador automático de menu
+  - tags:                 # Ativa sistema de categorias/etiquetas na busca 🏷️
+      tags_file: tags.md
+  - glightbox             # Efeito de zoom fluido ao clicar nas imagens e prints 🖼️
 
 markdown_extensions:
   - admonition                # Caixas de aviso coloridas (!!! note, !!! danger)
+  - attr_list                 # Necessário para o funcionamento do Glightbox
   - pymdownx.details          # Permite criar caixas de aviso retráteis
   - pymdownx.superfences      # Permite colocar códigos dentro das caixas de aviso
   - pymdownx.highlight:       # Coloração automática de código (Codehilite)
@@ -33,4 +39,7 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.tasklist:        # Checkboxes para checklists de tutoriais ▢
+      custom_checkbox: true
+
 
