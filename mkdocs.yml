@@ -7,6 +7,18 @@ theme:
   features:
     - navigation.expand   # Deixa as pastas do menu expansíveis
     - search.suggest      # Ativa sugestões na busca global
+    - content.code.copy   # Adiciona um botão de "Copiar" nos blocos de código
+
 
 plugins:
   - search                # Ativa o sistema de busca em todo o site
+  - awesome-pages         # Ativa o organizador automático de menu
+  - mkdocs-minify-plugin  # Minifica o HTML gerado para melhorar performance
+
+markdown_extensions:
+  - admonition                # Caixas de aviso coloridas (!!! note, !!! danger)
+  - pymdownx.details          # Permite criar caixas de aviso retráteis
+  - pymdownx.superfences      # Permite colocar códigos dentro das caixas de aviso
+  - pymdownx.highlight:       # Coloração automática de código (Codehilite)
+      anchor_linenums: true   # Permite linkar linhas específicas de código
+

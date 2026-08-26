@@ -16,10 +16,12 @@ jobs:
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
-          python-node-version: 3.x
+          python-version: 3.x
 
       - name: Instalar MkDocs Material
-        run: pip install mkdocs-material
+        run: |
+          pip install mkdocs-material
+          pip install mkdocs-awesome-pages-plugin
 
       - name: Compilar e Publicar no GitHub Pages
         run: mkdocs gh-deploy --force
