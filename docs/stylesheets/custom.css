@@ -2,3 +2,16 @@
 .md-footer {
   display: none !important;
 }
+
+/* 1. Oculta o título do site no menu lateral esquerdo */
+.md-sidebar--primary .md-nav--primary>.md-nav__title {
+  display: none;
+}
+
+/* 2. Cor de fundo do menu lateral esquerdo */
+.md-sidebar--primary .md-sidebar__scrollwrap {
+  background-color: #4051B5;
+  /* Exemplo: cinza bem claro (para tema claro) */
+  padding: 8px;
+  border-radius: 8px;
+}

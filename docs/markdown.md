@@ -1,5 +1,5 @@
 ---
-title: Guia Completo de Markdown para MkDocs
+title: Markdown para MkDocs
 description: Tutorial prático de sintaxe Markdown e uso de extensões e plugins configurados no Material for MkDocs.
 tags:
   - markdown
