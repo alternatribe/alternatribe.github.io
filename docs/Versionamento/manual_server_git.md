@@ -1,3 +1,7 @@
+---
+title: Versionamento Automático no Git
+---
+
 # Manual Universal: Git, Servidor Git e Automação de Versão (SemVer)
 
 Este manual foi criado para explicar, de forma simples e acessível (mesmo para quem não tem experiência prévia em programação), como funciona o controle de versão e o que é um servidor Git de forma agnóstica para **qualquer linguagem ou projeto** (como **Angular**, **Java Spring Boot**, **Node.js**, **Python**, **C#**, etc.), trazendo receitas completas e prontas para uso.
