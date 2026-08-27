@@ -10,23 +10,22 @@ Este manual foi criado para explicar, de forma simples e acessível (mesmo para 
 
 ## 📋 Índice
 
-1. [O que é Git e Servidor Git? (Para Leigos)](#1-o-que-é-git-e-servidor-git-para-leigos)
+1. [O que é Git e Servidor Git? (Para Leigos)](#1-o-que-e-git-e-servidor-git-para-leigos)
    * [A analogia do livro e dos rascunhos](#a-analogia-do-livro-e-dos-rascunhos)
-   * [Dicionário de termos essenciais](#dicionário-de-termos-essenciais)
-2. [O que é SemVer (Versionamento Semântico) e Build Number?](#2-o-que-é-semver-versionamento-semântico-e-build-number)
-   * [Entendendo a estrutura MAJOR . MINOR . PATCH](#entendendo-a-estrutura-major--minor--patch)
-   * [O que é Build Number (+N) e por que ele NUNCA é zerado?](#o-que-é-build-number-n-e-por-que-ele-é-necessário)
-   * [Tabela prática de decisões do SemVer](#tabela-prática-de-decisões-do-semver)
-3. [O que são Git Hooks e como funciona a automação?](#3-o-que-são-git-hooks-e-como-funciona-a-automação)
+   * [Dicionário de termos essenciais](#dicionario-de-termos-essenciais)
+2. [O que é SemVer (Versionamento Semântico) e Build Number?](#2-o-que-e-semver-versionamento-semantico-e-build-number)
+   * [Entendendo a estrutura MAJOR . MINOR . PATCH](#entendendo-a-estrutura-major-minor-patch)
+   * [O que é Build Number (+N) e por que ele é necessário?](#o-que-e-build-number-n-e-por-que-ele-e-necessario)
+   * [Tabela prática de decisões do SemVer](#tabela-pratica-de-decisoes-do-semver)
+3. [O que são Git Hooks e como funciona a automação?](#3-o-que-sao-git-hooks-e-como-funciona-a-automacao)
 4. [Como Configurar em um Projeto Novo (Do Zero)](#4-como-configurar-em-um-projeto-novo-do-zero)
-   * [Estrutura básica necessária](#estrutura-básica-dos-scripts)
-   * [Projeto Genérico (Arquivo VERSION)](#projeto-genérico-qualquer-linguagem--arquivo-version)
-   * [Flutter / Dart (pubspec.yaml)](#flutter--dart-pubspecyaml)
-   * [Angular / React / Node.js (package.json)](#angular--react--nodejs-packagejson)
+   * [Projeto Genérico (Arquivo VERSION)](#projeto-generico-qualquer-linguagem-arquivo-version)
+   * [Flutter / Dart (pubspec.yaml)](#flutter-dart-pubspecyaml)
+   * [Angular / React / Node.js (package.json)](#angular-react-nodejs-packagejson)
    * [Java Spring Boot (Maven pom.xml ou Gradle)](#java-spring-boot-maven-pomxml-ou-gradle)
 5. [Como Instalar/Ativar em um Projeto Clonado ou Existente](#5-como-instalarativar-em-um-projeto-clonado-ou-existente)
-6. [Como usar no dia a dia (Guia Prático)](#6-como-usar-no-dia-a-dia-guia-prático)
-7. [Perguntas Frequentes e Resolução de Problemas](#7-perguntas-frequentes-e-resolução-de-problemas)
+6. [Como usar no dia a dia (Guia Prático)](#6-como-usar-no-dia-a-dia-guia-pratico)
+7. [Perguntas Frequentes e Resolução de Problemas](#7-perguntas-frequentes-e-resolucao-de-problemas)
 
 ---
 
