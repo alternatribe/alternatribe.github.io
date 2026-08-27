@@ -1,3 +1,7 @@
+---
+title: Event Bus (Domain Events)
+---
+
 # Guia Arquitetural: Event Bus (Domain Events) — Flutter/Dart
 
 > **Propósito deste documento:** Servir como referência arquitetural autossuficiente sobre o uso correto do padrão Event Bus (Domain Events) em projetos Flutter/Dart que adotam arquitetura em camadas (MVVM, MVC, Clean Architecture, Hexagonal, etc.). Adapte os exemplos de estrutura de pastas e injeção de dependência à convenção do seu projeto.
@@ -7,6 +11,8 @@
 ## 1. Definição e Escopo
 
 O Event Bus é um **mediador interno** usado exclusivamente para orquestrar **efeitos colaterais entre agregados de domínio diferentes** após uma operação de escrita bem-sucedida. Ele implementa o padrão **Domain Events** do Domain-Driven Design (DDD).
+
+Em outras palavras, ele comunica eventos entre domínios diferentes, permitindo que não tenham acoplamento entre si. Assim, quem publica o evento não precisa saber da existência de outros módulos, mas todos os listeners inscritos (quem está escutando) saberão que a ação ocorreu (por ex.: houve uma alteração nos dados do domínio).
 
 ### 1.1. O Que o Event Bus É
 
