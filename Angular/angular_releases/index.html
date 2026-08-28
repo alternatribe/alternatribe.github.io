@@ -1,0 +1,1204 @@
+<!DOCTYPE html><html lang="pt" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://alternatribe.github.io/Angular/angular_releases/">
+      
+      
+        <link rel="prev" href="../../markdown/">
+      
+      
+        <link rel="next" href="../padronizacao_angular/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Angular Renaissance - Central de Tutoriais AlternaTribe</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#angular-renaissance" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Central de Tutoriais AlternaTribe" class="md-header__button md-logo" aria-label="Central de Tutoriais AlternaTribe" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Central de Tutoriais AlternaTribe
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Angular Renaissance
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Central de Tutoriais AlternaTribe" class="md-nav__button md-logo" aria-label="Central de Tutoriais AlternaTribe" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Central de Tutoriais AlternaTribe
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Markdown para MkDocs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angular
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Angular
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angular Renaissance
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angular Renaissance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#principais-novidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principais Novidades
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Principais Novidades">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#angular-v14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v14
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v15
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v16
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v17
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v18
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v19
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v20
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v21-arquitetura-signals-first-e-ai-tooling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v21 - Arquitetura "Signals-First" e AI-Tooling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v22
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../padronizacao_angular/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Padronização de Código no Angular
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIGNALS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Estrutura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Estrutura/teste/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teste
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flutter
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Flutter
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Flutter/EVENT_BUS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Bus (Domain Events)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Flutter/teste/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flutter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SpringBoot
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SpringBoot
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SpringBoot/padronizacao_springboot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Padronização de Código no Spring Boot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Versionamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Versionamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Versionamento/semver_git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Versionamento Automático no Git
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#principais-novidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Principais Novidades
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Principais Novidades">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#angular-v14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v14
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v15
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v16
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v17
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v18
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v19
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v20
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v21-arquitetura-signals-first-e-ai-tooling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v21 - Arquitetura "Signals-First" e AI-Tooling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-v22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular v22
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="angular-renaissance">Angular Renaissance</h1>
+<p>Com o&nbsp;Angular v14&nbsp;começou uma reestruturação no angular em direção ao&nbsp;Angular Moderno&nbsp;com o lançamento dos Standalone Components (que são componentes que não dependem de módulos) em um movimento para remover futuramente as dependências da biblioteca zone.js (que é a biblioteca responsável pelo gerenciamento do ciclo de vida do angular / detecção de mudanças). No Angular 16 foi introduzido o Signals para tornar a programação reativa sem depender dessa biblioteca (zone.js). E logo após foi cunhado o termo Angular Renaissance, ou seja, o renascimento do Angular, também conhecido como Angular Moderno.</p>
+<h2 id="principais-novidades">Principais Novidades</h2>
+<h3 id="angular-v14">Angular v14</h3>
+<p>-&nbsp;Standalone Components&nbsp;- componentes que podem ser usados sem precisar de um módulo, simplificando a estrutura e tornando-os mais modular.<br>
+-&nbsp;Typed Forms&nbsp;- tipagem para formulários reativos, garantindo que os dados dos formulários sejam validados e manipulados de maneira mais precisa e semântica, usando tipos de dados do TypeScript.<br>
+-&nbsp;Inject()&nbsp;- injetar dependência sem precisar do construtor.</p>
+<h3 id="angular-v15">Angular v15</h3>
+<p>-&nbsp;Autonomous Routes&nbsp;- as rotas autônomas não precisam de um módulo central para definir as rotas, elas podem ser definidas dentro dos componentes standalones.<br>
+-&nbsp;Functional Router Guards&nbsp;- uma forma de simplificar a configuração e implementação de guardas de roteamento, implementando como funções em vez de classes.<br>
+-&nbsp;Directive Composition&nbsp;- uma maneira poderosa de combinar múltiplas diretivas em uma só, criando componentes e funcionalidades mais modulares e reutilizáveis.<br>
+-&nbsp;ngSrc&nbsp;- diretiva de imagem que melhora a performance.<br>
+-&nbsp;melhorias&nbsp;no&nbsp;Standalone Components.<br>
+-&nbsp;recomendação&nbsp;de criar&nbsp;Guards, Resolvers e Interceptors&nbsp;em forma de função.</p>
+<h3 id="angular-v16">Angular v16</h3>
+<p>-&nbsp;Signals&nbsp;- é um novo mecanismo reativo para gerenciar o estado de forma direta, sendo uma maneira mais fácil e eficiente de gerenciar e rastrear mudanças de estado, com maior controle sobre quando e como as alterações no estado disparam atualizações na interface do usuário, alternativa ao gerenciamento do ciclo de vida tradicional (detecção de mudanças). Pode ser convertido para Observables e vice-versa.<br>
+- melhorias no&nbsp;Content Projection&nbsp;- permite que o conteúdo (geralmente passado como HTML ou outro conteúdo de template) seja inserido dentro de um componente de maneira dinâmica e reutilizável, sem que o componente precise saber sobre o conteúdo real, ou seja, o conteúdo pode ser definido externamente ao componente, permitindo que você separe a estrutura e a lógica do componente da apresentação de conteúdo.<br>
+-&nbsp;@Input({ required: true, alias: 'nomeCampoNaTela' })&nbsp;torna o input&nbsp;required, verificando antes da execução do campo, e&nbsp;alias&nbsp;torna a mensagem de erro mais legível exibindo o&nbsp;<em>alias</em>&nbsp;na mensagem.<br>
+-&nbsp;Parâmetros de entrada nas rotas&nbsp;- pode ser configurado em Routes ou via @Input no componente<br>
+&nbsp; &nbsp;ex: https://meu.app.com/user/1?search=busca<br>
+&nbsp; &nbsp;@Input() userId: string; // 1<br>
+&nbsp; &nbsp;@Input() search: string; // busca<br>
+- Suporte oficial a teste unitários com&nbsp;Jest, em substituição ao Karma.</p>
+<h3 id="angular-v17">Angular v17</h3>
+<p>-&nbsp;Control flow&nbsp;- Nova syntax dos templates, substituindo as diretivas *ngIf, *ngFor e *ngSwitch.<br>
+-&nbsp;Deferrable views @defer&nbsp;- pedaço do template como lazy load, ou componente, diretiva, pipe ou css, que só carrega na tela se satisfazer a condição, por exemplo quando terminar de carregar uma imagem ou em ponto visível da tela.<br>
+-&nbsp;~~<em>novidades no SSR e Hidration</em>&nbsp;- Processamento no lado do servidor, sendo mais utilizado para páginas estáticas por melhorar a indexação por motores de busca ou o conteúdo é personalizado no lado do servidor.~~<br>
+-&nbsp;melhorias no Signals<br>
+-&nbsp;NgModules&nbsp;serão mantidos por enquanto, mas a equipe do Angular recomenda a migração gradual para Standalone Components.</p>
+<h3 id="angular-v18">Angular v18</h3>
+<p>-&nbsp;Observables&nbsp;em eventos do AbstractControl<br>
+-&nbsp;ng-content&nbsp;com conteúdo padrão caso ele não seja passado.<br>
+-&nbsp;RedirectCommand()&nbsp;- novo comando para redirecionamento de rotas com opções adicionais que não existiam antes.<br>
+-&nbsp;redirecTo()&nbsp;- flexibilidade para retornar função ou UrlTree, em vez de string.</p>
+<h3 id="angular-v19">Angular v19</h3>
+<p>-&nbsp;Standalone por padrão&nbsp;- components, pipes e directives serão standalone caso não seja informado para não ser.<br>
+-&nbsp;~~<em>resource API</em>&nbsp;(experimental ainda)~~<br>
+-&nbsp;Variáveis locais em templates: @let greeting = 'Olá ' + name.value;<br>
+-&nbsp;melhorias no&nbsp;Signals;<br>
+- Anúncio que o&nbsp;Karma será descontinuado&nbsp;em 2025.</p>
+<h3 id="angular-v20">Angular v20</h3>
+<ul>
+<li>Integração de WebAssembly (Wasm) - A versão 20 foca na integração de WebAssembly (Wasm) para melhorar o desempenho de processamentos complexos. A ideia é permitir que partes críticas da aplicação sejam executadas em Wasm para alcançar velocidades quase nativas, especialmente em cálculos intensivos ou processamento de imagens.</li>
+<li>Melhorias na performance com&nbsp;Signals e Change Detection&nbsp;- O desenvolvimento de componentes totalmente baseados em signals continua a evoluir, com o objetivo de otimizar a detecção de mudanças e eliminar a necessidade do NgZone. Isso tornará as aplicações mais rápidas, eficientes e fáceis de depurar.
+-&nbsp;Resource API Estável -&nbsp;A Resource API, introduzida como experimental na versão 19, foi estabilizada, tornando-se a abordagem recomendada para a busca de dados.
+-&nbsp;Ferramentas de Migração e Codemods&nbsp;- A equipe do Angular disponibilizou mais ferramentas automatizadas (codemods) para facilitar a migração de aplicações existentes para a nova sintaxe de Control flow e componentes baseados em Signals, tornando o processo de atualização menos manual e mais seguro. (ferramentas usadas na atualização da versão 19 para a 20).
+-&nbsp;Suporte a Novas Versões do TypeScript e ECMAScript&nbsp;- O Angular 20 traz suporte aprimorado para as últimas versões do TypeScript e das especificações do ECMAScript, garantindo que os desenvolvedores possam utilizar as novidades da linguagem.</li>
+</ul>
+<h3 id="angular-v21-arquitetura-signals-first-e-ai-tooling">Angular v21 - Arquitetura "Signals-First" e AI-Tooling</h3>
+<ul>
+<li>Zoneless por Padrão: O <code>zone.js</code> passa a ser excluído por padrão em novos projetos (<code>ng new</code>), consolidando a detecção de mudanças puramente baseada em <strong>Signals</strong> para maior performance e pacotes menores.</li>
+<li>Signal Forms (Developer Preview): Introdução de uma API totalmente nova e reativa para formulários baseada em <em>Signals</em>, eliminando as subscrições manuais via RxJS (<code>valueChanges</code>) e o padrão <code>takeUntil</code>.</li>
+<li>Angular Aria (Developer Preview): Lançamento de um pacote headless focado em acessibilidade, trazendo padrões de UI e componentes nativos otimizados para leitores de tela.</li>
+<li>Vitest como Test Runner Padrão: O Vitest assume o lugar do Karma em definitivo para novas aplicações, garantindo testes muito mais rápidos e execução nativa em ambientes <em>zoneless</em>.</li>
+<li>Angular MCP Server: Integração de ferramentas de Inteligência Artificial nativas via <strong>Model Context Protocol</strong>, permitindo refatorações, migrações e geração de código direto pelo CLI através de prompts em linguagem natural. </li>
+<li>HttpClient Global: O <code>HttpClient</code> passa a ser injetado nativamente no nível raiz, dispensando configurações manuais repetitivas no início do projeto. </li>
+</ul>
+<h3 id="angular-v22">Angular v22</h3>
+<ul>
+<li>Estabilização do Signal Forms &amp; Angular Aria: As APIs de formulários baseadas em <strong>Signals</strong> e os componentes acessíveis headless tornam-se <strong>100% estáveis e recomendados para produção</strong>.</li>
+<li>OnPush por Padrão: A estratégia de detecção de mudanças <code>OnPush</code> passa a ser o padrão do ecossistema do framework, forçando uma renderização mais econômica e performática.</li>
+<li>Asynchronous Reactivity APIs Estáveis: Consolidação das diretivas de busca assíncrona como <code>resource()</code> e <code>httpResource()</code> para o gerenciamento nativo de requisições via <em>Signals</em>.</li>
+<li>Novo Decorador @Service e injectAsync: Introdução do decorador <code>@Service</code> focado nas novas estruturas modernas e da função <code>injectAsync()</code> para carregamento sob demanda (lazy loading) de injeções de dependência assíncronas.</li>
+<li>Melhorias em Templates: Suporte a comentários em formato HTML, operadores de espalhamento (<em>spread syntax</em>), checagem exaustiva dentro do bloco <code>@switch</code> e o uso de <strong>arrow functions</strong> direto nas expressões do template.</li>
+<li>Fim do Suporte ao Webpack: O framework descontinua oficialmente o suporte ao Webpack no build padrão, movendo os holofotes completamente para o motor de compilação ultra-rápido baseado em Go (tsgo) e esbuild. </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.expand", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

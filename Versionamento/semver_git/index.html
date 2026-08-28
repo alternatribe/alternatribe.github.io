@@ -1,0 +1,2540 @@
+<!DOCTYPE html><html lang="pt" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://alternatribe.github.io/Versionamento/semver_git/">
+      
+      
+        <link rel="prev" href="../../SpringBoot/padronizacao_springboot/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Versionamento Automático no Git - Central de Tutoriais AlternaTribe</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#manual-universal-git-servidor-git-e-automacao-de-versao-semver" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Central de Tutoriais AlternaTribe" class="md-header__button md-logo" aria-label="Central de Tutoriais AlternaTribe" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Central de Tutoriais AlternaTribe
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Versionamento Automático no Git
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Central de Tutoriais AlternaTribe" class="md-nav__button md-logo" aria-label="Central de Tutoriais AlternaTribe" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Central de Tutoriais AlternaTribe
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Markdown para MkDocs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angular
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Angular
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Angular/angular_releases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angular Renaissance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Angular/padronizacao_angular/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Padronização de Código no Angular
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Angular/signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIGNALS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Estrutura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Estrutura/teste/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teste
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flutter
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Flutter
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Flutter/EVENT_BUS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Bus (Domain Events)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Flutter/teste/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flutter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SpringBoot
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SpringBoot
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SpringBoot/padronizacao_springboot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Padronização de Código no Spring Boot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Versionamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Versionamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Versionamento Automático no Git
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Versionamento Automático no Git
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#indice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Índice
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-o-que-e-git-e-servidor-git-para-leigos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. O que é Git e Servidor Git? (Para Leigos)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. O que é Git e Servidor Git? (Para Leigos)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-analogia-do-livro-e-dos-rascunhos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A analogia do livro e dos rascunhos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dicionario-de-termos-essenciais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dicionário de termos essenciais
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-o-que-e-semver-versionamento-semantico-e-build-number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. O que é SemVer (Versionamento Semântico) e Build Number?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. O que é SemVer (Versionamento Semântico) e Build Number?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#entendendo-a-estrutura-major-minor-patch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entendendo a estrutura MAJOR . MINOR . PATCH
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o-que-e-build-number-n-e-por-que-ele-e-necessario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O que é Build Number (+N) e por que ele é necessário?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabela-pratica-de-decisoes-do-semver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabela prática de decisões do SemVer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-o-que-sao-git-hooks-e-como-funciona-a-automacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. O que são Git Hooks e como funciona a automação?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-como-configurar-em-um-projeto-novo-do-zero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Como Configurar em um Projeto Novo (Do Zero)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Como Configurar em um Projeto Novo (Do Zero)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#projeto-generico-qualquer-linguagem-arquivo-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Projeto Genérico (Qualquer linguagem / Arquivo VERSION)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Projeto Genérico (Qualquer linguagem / Arquivo VERSION)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-criar-a-pasta-e-o-arquivo-de-versao-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Criar a pasta e o arquivo de versão inicial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-criar-o-arquivo-scriptspre-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Criar o arquivo scripts/pre-commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-criar-o-arquivo-installsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Criar o arquivo install.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-criar-o-arquivo-releasesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Criar o arquivo release.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-dar-permissao-e-ativar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Dar permissão e ativar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flutter-dart-pubspecyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flutter / Dart (pubspec.yaml)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Flutter / Dart (pubspec.yaml)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-criar-a-pasta-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Criar a pasta scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-criar-o-arquivo-scriptspre-commit_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Criar o arquivo scripts/pre-commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-criar-o-arquivo-installsh_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Criar o arquivo install.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-criar-o-arquivo-releasesh_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Criar o arquivo release.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-dar-permissao-e-ativar_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Dar permissão e ativar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-react-nodejs-packagejson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular / React / Node.js (package.json)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Angular / React / Node.js (package.json)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-criar-a-pasta-scripts_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Criar a pasta scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-criar-o-arquivo-scriptspre-commit_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Criar o arquivo scripts/pre-commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-criar-o-arquivo-installsh_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Criar o arquivo install.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-criar-o-arquivo-releasesh_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Criar o arquivo release.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-dar-permissao-e-ativar_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Dar permissão e ativar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-spring-boot-maven-pomxml-ou-gradle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Java Spring Boot (Maven pom.xml ou Gradle)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Java Spring Boot (Maven pom.xml ou Gradle)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#para-projetos-maven-pomxml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Para projetos Maven (pom.xml):
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Para projetos Maven (pom.xml):">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-criar-a-pasta-scripts-e-o-installsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Criar a pasta scripts e o install.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-criar-o-arquivo-releasesh-para-maven" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Criar o arquivo release.sh para Maven
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#para-projetos-gradle-buildgradle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Para projetos Gradle (build.gradle):
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-como-instalarativar-em-um-projeto-clonado-ou-existente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Como Instalar/Ativar em um Projeto Clonado ou Existente
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Como Instalar/Ativar em um Projeto Clonado ou Existente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#o-que-esse-comando-faz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O que esse comando faz?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-como-usar-no-dia-a-dia-guia-pratico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Como usar no dia a dia (Guia Prático)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Como usar no dia a dia (Guia Prático)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-trabalho-diario-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Trabalho Diário (Commits)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-gerar-uma-release-oficial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Gerar uma Release Oficial
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-perguntas-frequentes-e-resolucao-de-problemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Perguntas Frequentes e Resolução de Problemas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Perguntas Frequentes e Resolução de Problemas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-permission-denied-ao-tentar-rodar-um-sh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. "Permission denied" ao tentar rodar um .sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-como-verificar-se-o-hook-esta-ativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Como verificar se o hook está ativo?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-o-releasesh-falhou-nos-testes-e-agora" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. O release.sh falhou nos testes, e agora?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-o-meu-projeto-nao-e-flutter-nem-angular-nem-java-como-usar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. O meu projeto não é Flutter, nem Angular, nem Java. Como usar?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-preciso-rodar-installsh-de-novo-se-fizer-git-clone-novamente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Preciso rodar install.sh de novo se fizer git clone novamente?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-como-rodar-no-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Como rodar no Windows?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#indice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Índice
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-o-que-e-git-e-servidor-git-para-leigos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. O que é Git e Servidor Git? (Para Leigos)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. O que é Git e Servidor Git? (Para Leigos)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-analogia-do-livro-e-dos-rascunhos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A analogia do livro e dos rascunhos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dicionario-de-termos-essenciais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dicionário de termos essenciais
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-o-que-e-semver-versionamento-semantico-e-build-number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. O que é SemVer (Versionamento Semântico) e Build Number?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. O que é SemVer (Versionamento Semântico) e Build Number?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#entendendo-a-estrutura-major-minor-patch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entendendo a estrutura MAJOR . MINOR . PATCH
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o-que-e-build-number-n-e-por-que-ele-e-necessario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O que é Build Number (+N) e por que ele é necessário?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tabela-pratica-de-decisoes-do-semver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabela prática de decisões do SemVer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-o-que-sao-git-hooks-e-como-funciona-a-automacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. O que são Git Hooks e como funciona a automação?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-como-configurar-em-um-projeto-novo-do-zero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Como Configurar em um Projeto Novo (Do Zero)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Como Configurar em um Projeto Novo (Do Zero)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#projeto-generico-qualquer-linguagem-arquivo-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Projeto Genérico (Qualquer linguagem / Arquivo VERSION)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Projeto Genérico (Qualquer linguagem / Arquivo VERSION)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-criar-a-pasta-e-o-arquivo-de-versao-inicial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Criar a pasta e o arquivo de versão inicial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-criar-o-arquivo-scriptspre-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Criar o arquivo scripts/pre-commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-criar-o-arquivo-installsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Criar o arquivo install.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-criar-o-arquivo-releasesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Criar o arquivo release.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-dar-permissao-e-ativar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Dar permissão e ativar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flutter-dart-pubspecyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flutter / Dart (pubspec.yaml)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Flutter / Dart (pubspec.yaml)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-criar-a-pasta-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Criar a pasta scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-criar-o-arquivo-scriptspre-commit_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Criar o arquivo scripts/pre-commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-criar-o-arquivo-installsh_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Criar o arquivo install.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-criar-o-arquivo-releasesh_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Criar o arquivo release.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-dar-permissao-e-ativar_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Dar permissão e ativar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-react-nodejs-packagejson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular / React / Node.js (package.json)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Angular / React / Node.js (package.json)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-criar-a-pasta-scripts_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Criar a pasta scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-criar-o-arquivo-scriptspre-commit_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Criar o arquivo scripts/pre-commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-criar-o-arquivo-installsh_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Criar o arquivo install.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-criar-o-arquivo-releasesh_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Criar o arquivo release.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-dar-permissao-e-ativar_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Dar permissão e ativar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#java-spring-boot-maven-pomxml-ou-gradle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Java Spring Boot (Maven pom.xml ou Gradle)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Java Spring Boot (Maven pom.xml ou Gradle)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#para-projetos-maven-pomxml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Para projetos Maven (pom.xml):
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Para projetos Maven (pom.xml):">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-criar-a-pasta-scripts-e-o-installsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Criar a pasta scripts e o install.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-criar-o-arquivo-releasesh-para-maven" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Criar o arquivo release.sh para Maven
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#para-projetos-gradle-buildgradle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Para projetos Gradle (build.gradle):
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-como-instalarativar-em-um-projeto-clonado-ou-existente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Como Instalar/Ativar em um Projeto Clonado ou Existente
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Como Instalar/Ativar em um Projeto Clonado ou Existente">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#o-que-esse-comando-faz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O que esse comando faz?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-como-usar-no-dia-a-dia-guia-pratico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Como usar no dia a dia (Guia Prático)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Como usar no dia a dia (Guia Prático)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-trabalho-diario-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Trabalho Diário (Commits)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-gerar-uma-release-oficial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Gerar uma Release Oficial
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-perguntas-frequentes-e-resolucao-de-problemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Perguntas Frequentes e Resolução de Problemas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Perguntas Frequentes e Resolução de Problemas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-permission-denied-ao-tentar-rodar-um-sh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. "Permission denied" ao tentar rodar um .sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-como-verificar-se-o-hook-esta-ativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Como verificar se o hook está ativo?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-o-releasesh-falhou-nos-testes-e-agora" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. O release.sh falhou nos testes, e agora?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-o-meu-projeto-nao-e-flutter-nem-angular-nem-java-como-usar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. O meu projeto não é Flutter, nem Angular, nem Java. Como usar?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-preciso-rodar-installsh-de-novo-se-fizer-git-clone-novamente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Preciso rodar install.sh de novo se fizer git clone novamente?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-como-rodar-no-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Como rodar no Windows?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="manual-universal-git-servidor-git-e-automacao-de-versao-semver">Manual Universal: Git, Servidor Git e Automação de Versão (SemVer)</h1>
+<p>Este manual foi criado para explicar, de forma simples e acessível (mesmo para quem não tem experiência prévia em programação), como funciona o controle de versão e o que é um servidor Git de forma agnóstica para <strong>qualquer linguagem ou projeto</strong> (como <strong>Angular</strong>, <strong>Java Spring Boot</strong>, <strong>Node.js</strong>, <strong>Python</strong>, <strong>C#</strong>, etc.), trazendo receitas completas e prontas para uso.</p>
+<hr>
+<h2 id="indice">📋 Índice</h2>
+<ol>
+<li><a href="#1-o-que-e-git-e-servidor-git-para-leigos">O que é Git e Servidor Git? (Para Leigos)</a></li>
+<li><a href="#a-analogia-do-livro-e-dos-rascunhos">A analogia do livro e dos rascunhos</a></li>
+<li><a href="#dicionario-de-termos-essenciais">Dicionário de termos essenciais</a></li>
+<li><a href="#2-o-que-e-semver-versionamento-semantico-e-build-number">O que é SemVer (Versionamento Semântico) e Build Number?</a></li>
+<li><a href="#entendendo-a-estrutura-major-minor-patch">Entendendo a estrutura MAJOR . MINOR . PATCH</a></li>
+<li><a href="#o-que-e-build-number-n-e-por-que-ele-e-necessario">O que é Build Number (+N) e por que ele é necessário?</a></li>
+<li><a href="#tabela-pratica-de-decisoes-do-semver">Tabela prática de decisões do SemVer</a></li>
+<li><a href="#3-o-que-sao-git-hooks-e-como-funciona-a-automacao">O que são Git Hooks e como funciona a automação?</a></li>
+<li><a href="#4-como-configurar-em-um-projeto-novo-do-zero">Como Configurar em um Projeto Novo (Do Zero)</a></li>
+<li><a href="#projeto-generico-qualquer-linguagem-arquivo-version">Projeto Genérico (Arquivo VERSION)</a></li>
+<li><a href="#flutter-dart-pubspecyaml">Flutter / Dart (pubspec.yaml)</a></li>
+<li><a href="#angular-react-nodejs-packagejson">Angular / React / Node.js (package.json)</a></li>
+<li><a href="#java-spring-boot-maven-pomxml-ou-gradle">Java Spring Boot (Maven pom.xml ou Gradle)</a></li>
+<li><a href="#5-como-instalarativar-em-um-projeto-clonado-ou-existente">Como Instalar/Ativar em um Projeto Clonado ou Existente</a></li>
+<li><a href="#6-como-usar-no-dia-a-dia-guia-pratico">Como usar no dia a dia (Guia Prático)</a></li>
+<li><a href="#7-perguntas-frequentes-e-resolucao-de-problemas">Perguntas Frequentes e Resolução de Problemas</a></li>
+</ol>
+<hr>
+<h2 id="1-o-que-e-git-e-servidor-git-para-leigos">1. O que é Git e Servidor Git? (Para Leigos)</h2>
+<h3 id="a-analogia-do-livro-e-dos-rascunhos">A analogia do livro e dos rascunhos</h3>
+<p>Imagine que várias pessoas estão escrevendo um livro juntas:
+* <strong>Sem Git</strong>: As pessoas trocam arquivos por e-mail chamados <code>projeto_v1.zip</code>, <code>projeto_final.zip</code>, <code>projeto_final_agora_vai.zip</code>. Isso causa perda de código e confusão total.
+* <strong>Git</strong>: É o controle de versão instalado no seu computador. Ele funciona como uma "máquina do tempo". Toda vez que você salva uma etapa (chamada de <strong>Commit</strong>), o Git registra exatamente o que mudou, quem mudou e quando mudou. Se algo quebrar, você pode voltar para qualquer momento do passado.
+* <strong>Servidor Git</strong> (ex: GitHub, Bitbucket, GitLab, Azure DevOps): É a "nuvem central". Ele guarda o repositório mestre. Toda a equipe envia (<strong>Push</strong>) ou baixa (<strong>Pull</strong>) as alterações em relação a essa cópia central na nuvem.</p>
+<h3 id="dicionario-de-termos-essenciais">Dicionário de termos essenciais</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Termo</th>
+<th style="text-align: left;">Significado na prática</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Repositório (Repo)</strong></td>
+<td style="text-align: left;">A pasta inteira do projeto monitorada pelo Git.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Commit</strong></td>
+<td style="text-align: left;">Um ponto de salvamento registrado no histórico com uma mensagem descritiva.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Push</strong></td>
+<td style="text-align: left;">Enviar seus commits locais do seu computador para o <strong>Servidor Git</strong>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Pull</strong></td>
+<td style="text-align: left;">Baixar as alterações mais recentes do <strong>Servidor Git</strong> para o seu computador.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Tag</strong></td>
+<td style="text-align: left;">Uma "etiqueta" colocada em um commit para marcar uma versão lançada oficial (ex: <code>v1.0.0</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Branch</strong></td>
+<td style="text-align: left;">Uma linha de desenvolvimento paralela (ex: <code>main</code>, <code>develop</code>, <code>feature/login</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Clone</strong></td>
+<td style="text-align: left;">Baixar a cópia inicial do repositório remoto para o seu computador.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="2-o-que-e-semver-versionamento-semantico-e-build-number">2. O que é SemVer (Versionamento Semântico) e Build Number?</h2>
+<p><strong>SemVer</strong> (<em>Semantic Versioning</em>) é o padrão internacional que define como dar números de versão a qualquer sistema de software.</p>
+<p>Uma versão completa pode ser representada por <code>MAJOR.MINOR.PATCH</code> (ex: <code>1.4.2</code>) ou acompanhada do <strong>Build Number</strong> <code>MAJOR.MINOR.PATCH+BUILD</code> (ex: <code>1.4.2+45</code>).</p>
+<h3 id="entendendo-a-estrutura-major-minor-patch">Entendendo a estrutura <code>MAJOR . MINOR . PATCH</code></h3>
+<ol>
+<li><strong>MAJOR (Versão Principal - <code>1</code>)</strong>:</li>
+<li><strong>Quando alterar?</strong> Quando você faz uma alteração grande que <strong>incompatibiliza</strong> ou <strong>quebra</strong> o que existia antes (ex: refatoração completa do banco de dados, mudança total de APIs ou remoção de recursos).</li>
+<li>
+<p><em>Regra:</em> Ao incrementar o MAJOR, o MINOR e o PATCH voltam para zero (ex: de <code>1.5.3</code> vai para <code>2.0.0</code>).</p>
+</li>
+<li>
+<p><strong>MINOR (Versão Secundária - <code>4</code>)</strong>:</p>
+</li>
+<li><strong>Quando alterar?</strong> Quando novas funcionalidades ou novas telas são adicionadas de forma <strong>compatível</strong> (sem quebrar o que já funcionava).</li>
+<li>
+<p><em>Regra:</em> Ao incrementar o MINOR, o PATCH volta para zero (ex: de <code>1.4.2</code> vai para <code>1.5.0</code>).</p>
+</li>
+<li>
+<p><strong>PATCH (Correção de Bugs - <code>2</code>)</strong>:</p>
+</li>
+<li><strong>Quando alterar?</strong> Quando você apenas corrige um bug, erro de cálculo ou falha de segurança, sem adicionar novos recursos.</li>
+<li><em>Regra:</em> Incrementa apenas o último número (ex: de <code>1.4.2</code> vai para <code>1.4.3</code>).</li>
+</ol>
+<hr>
+<h3 id="o-que-e-build-number-n-e-por-que-ele-e-necessario">O que é Build Number (<code>+N</code>) e por que ele é necessário?</h3>
+<p>O <strong>Build Number</strong> (ou número de compilação) é o contador numérico que vem após o sinal de mais (<code>+</code>), por exemplo: <code>1.4.2+45</code>.</p>
+<ul>
+<li><strong>Identificador Único de Geração do Executável</strong>: Você pode compilar um aplicativo 10 vezes no mesmo dia sem mudar as funcionalidades (SemVer <code>1.4.2</code> continua o mesmo), mas cada compilação gerada precisa de um número único sequencial (ex: <code>+45</code>, <code>+46</code>, <code>+47</code>).</li>
+<li><strong>Exigência de Lojas e Atualizadores</strong>: Lojas digitais (Google Play Store, Apple App Store) e gerenciadores de atualização (Windows/Linux/Mobile) exigem obrigatoriamente que qualquer novo instalador enviado tenha um Build Number <strong>estritamente maior</strong> que o instalador anterior.</li>
+<li><strong>O Build Number é zerado ao mudar MAJOR ou MINOR?</strong> <strong>NÃO, ele NUNCA é zerado!</strong></li>
+<li>Diferente do MINOR e PATCH (que voltam a zero quando o MAJOR sobe), o Build Number precisa ser <strong>estritamente crescente durante toda a vida útil do aplicativo</strong>.</li>
+<li>Se você estiver na versão <code>1.9.0+50</code> e lançar a <code>2.0.0+1</code> (zerando o build), lojas como a Google Play (<code>versionCode</code>) e a Apple App Store (<code>CFBundleVersion</code>) <strong>rejeitarão o envio imediatamente</strong>, pois já existe um histórico com build 50.</li>
+<li><strong>Como a automação resolve isso?</strong> Nosso script de Git Hook calcula o Build Number automaticamente baseado no número total de commits no repositório (<code>git rev-list --count HEAD + 1</code>). Dessa forma, mesmo ao pular de <code>1.9.0</code> para <code>2.0.0</code>, o build number continuará crescendo naturalmente (ex: <code>1.9.0+50</code> ➡️ <code>2.0.0+51</code>) sem qualquer risco de rejeição ou intervenção manual!</li>
+</ul>
+<hr>
+<h3 id="tabela-pratica-de-decisoes-do-semver">Tabela prática de decisões do SemVer</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">O que foi feito no projeto?</th>
+<th style="text-align: left;">Tipo de Release</th>
+<th style="text-align: left;">Exemplo de Mudança</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Corrigiu um bug ou erro em uma tela/API</td>
+<td style="text-align: left;"><code>patch</code></td>
+<td style="text-align: left;"><code>1.0.0+5</code> ➡️ <code>1.0.1+6</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Adicionou uma nova funcionalidade (ex: Pix, relatórios, filtro novo)</td>
+<td style="text-align: left;"><code>minor</code></td>
+<td style="text-align: left;"><code>1.0.1+6</code> ➡️ <code>1.1.0+7</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Reescreveu o sistema, trocou o banco ou removeu compatibilidade</td>
+<td style="text-align: left;"><code>major</code></td>
+<td style="text-align: left;"><code>1.4.2+20</code> ➡️ <code>2.0.0+21</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-o-que-sao-git-hooks-e-como-funciona-a-automacao">3. O que são Git Hooks e como funciona a automação?</h2>
+<p>Um <strong>Git Hook</strong> é um script automatizado disparado pelo Git quando ocorrem eventos específicos (como antes de fazer um commit ou antes de um push).</p>
+<p>Nesta solução, usamos o hook <strong><code>pre-commit</code></strong>:
+* <strong>O que ele faz?</strong> Executa automaticamente no seu computador toda vez que você digita <code>git commit</code>.
+* <strong>Automação do Build Number / Versão</strong>: Ele atualiza o arquivo de versão do projeto dinamicamente com base no histórico de commits (<code>git rev-list --count HEAD + 1</code>).
+* <strong>Vantagem</strong>: Evita esquecimento humano e garante que todo commit tenha seu número de build atualizado automaticamente.</p>
+<hr>
+<h2 id="4-como-configurar-em-um-projeto-novo-do-zero">4. Como Configurar em um Projeto Novo (Do Zero)</h2>
+<p>Para configurar a automação em um projeto novo, você precisa de apenas <strong>3 arquivos</strong>:
+1. <code>install.sh</code> (na raiz do projeto): script que ativa os hooks no Git local.
+2. <code>scripts/pre-commit</code>: hook que atualiza o build number a cada commit.
+3. <code>release.sh</code> (na raiz do projeto): script que valida testes, incrementa o SemVer, gera tag e faz push.</p>
+<p>Escolha a tecnologia do seu projeto abaixo para ver a receita completa com os arquivos prontos:</p>
+<hr>
+<h3 id="projeto-generico-qualquer-linguagem-arquivo-version">Projeto Genérico (Qualquer linguagem / Arquivo <code>VERSION</code>)</h3>
+<p>Use esta opção para Python, PHP, C#, Rust, Go ou qualquer projeto que não use um gerenciador de pacotes específico.</p>
+<h4 id="1-criar-a-pasta-e-o-arquivo-de-versao-inicial">1. Criar a pasta e o arquivo de versão inicial</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>scripts
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"1.0.0"</span><span class="w"> </span>&gt;<span class="w"> </span>VERSION
+</span></code></pre></div>
+<h4 id="2-criar-o-arquivo-scriptspre-commit">2. Criar o arquivo <code>scripts/pre-commit</code></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nv">ROOT_DIR</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>rev-parse<span class="w"> </span>--show-toplevel<span class="k">)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$ROOT_DIR</span><span class="s2">"</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span>VERSION<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nv">CURRENT_VERSION</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>VERSION<span class="k">)</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="nv">BASE_VERSION</span><span class="o">=</span><span class="si">${</span><span class="nv">CURRENT_VERSION</span><span class="p">%%+*</span><span class="si">}</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="nv">BUILD_NUMBER</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="k">$(</span>git<span class="w"> </span>rev-list<span class="w"> </span>--count<span class="w"> </span>HEAD<span class="k">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nv">NEW_VERSION</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">BASE_VERSION</span><span class="si">}</span><span class="s2">+</span><span class="si">${</span><span class="nv">BUILD_NUMBER</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$NEW_VERSION</span><span class="s2">"</span><span class="w"> </span>&gt;<span class="w"> </span>VERSION
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span>git<span class="w"> </span>add<span class="w"> </span>VERSION
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="k">fi</span>
+</span></code></pre></div>
+<h4 id="3-criar-o-arquivo-installsh">3. Criar o arquivo <code>install.sh</code></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nv">ROOT_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">pwd</span><span class="k">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$ROOT_DIR</span><span class="s2">"</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-d<span class="w"> </span>.git<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Erro: Execute na raiz de um repositório Git."</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="k">fi</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span>scripts/pre-commit<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Erro: scripts/pre-commit nao encontrado."</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="k">fi</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>chmod<span class="w"> </span>+x<span class="w"> </span>scripts/pre-commit
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>git<span class="w"> </span>config<span class="w"> </span>core.hooksPath<span class="w"> </span>scripts
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"core.hooksPath configurado para scripts com sucesso!"</span>
+</span></code></pre></div>
+<h4 id="4-criar-o-arquivo-releasesh">4. Criar o arquivo <code>release.sh</code></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nv">ROOT_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">pwd</span><span class="k">)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$ROOT_DIR</span><span class="s2">"</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nv">BUMP_TYPE</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"major"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"minor"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"patch"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Uso: ./release.sh &lt;major|minor|patch&gt;"</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="k">fi</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>git<span class="w"> </span>status<span class="w"> </span>--porcelain<span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Erro: Existem alteracoes nao comitadas. Faca commit antes de gerar release."</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="k">fi</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="nv">VERSION_STR</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>VERSION<span class="k">)</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="nv">VERSION_ONLY</span><span class="o">=</span><span class="si">${</span><span class="nv">VERSION_STR</span><span class="p">%%+*</span><span class="si">}</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="nv">IFS</span><span class="o">=</span><span class="s1">'.'</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>MAJOR<span class="w"> </span>MINOR<span class="w"> </span>PATCH<span class="w"> </span><span class="o">&lt;&lt;&lt;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$VERSION_ONLY</span><span class="s2">"</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="k">case</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span><span class="k">in</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">  </span>major<span class="o">)</span><span class="w"> </span><span class="nv">MAJOR</span><span class="o">=</span><span class="k">$((</span><span class="nv">MAJOR</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="p">;</span><span class="w"> </span><span class="nv">MINOR</span><span class="o">=</span><span class="m">0</span><span class="p">;</span><span class="w"> </span><span class="nv">PATCH</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="p">;;</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">  </span>minor<span class="o">)</span><span class="w"> </span><span class="nv">MINOR</span><span class="o">=</span><span class="k">$((</span><span class="nv">MINOR</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="p">;</span><span class="w"> </span><span class="nv">PATCH</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="p">;;</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">  </span>patch<span class="o">)</span><span class="w"> </span><span class="nv">PATCH</span><span class="o">=</span><span class="k">$((</span><span class="nv">PATCH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="w"> </span><span class="p">;;</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="k">esac</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="nv">BUILD_NUMBER</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="k">$(</span>git<span class="w"> </span>rev-list<span class="w"> </span>--count<span class="w"> </span>HEAD<span class="k">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="nv">NEW_VERSION</span><span class="o">=</span><span class="s2">"</span><span class="nv">$MAJOR</span><span class="s2">.</span><span class="nv">$MINOR</span><span class="s2">.</span><span class="nv">$PATCH</span><span class="s2">+</span><span class="nv">$BUILD_NUMBER</span><span class="s2">"</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="nv">TAG_NAME</span><span class="o">=</span><span class="s2">"v</span><span class="nv">$MAJOR</span><span class="s2">.</span><span class="nv">$MINOR</span><span class="s2">.</span><span class="nv">$PATCH</span><span class="s2">"</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="k">if</span><span class="w"> </span>git<span class="w"> </span>rev-parse<span class="w"> </span>-q<span class="w"> </span>--verify<span class="w"> </span><span class="s2">"refs/tags/</span><span class="nv">$TAG_NAME</span><span class="s2">"</span><span class="w"> </span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Tag ja existe: </span><span class="nv">$TAG_NAME</span><span class="s2">"</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="k">fi</span>
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a>
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$NEW_VERSION</span><span class="s2">"</span><span class="w"> </span>&gt;<span class="w"> </span>VERSION
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Versao atualizada para: </span><span class="nv">$NEW_VERSION</span><span class="s2">"</span>
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a>
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>git<span class="w"> </span>add<span class="w"> </span>VERSION
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"chore: bump version to </span><span class="nv">$NEW_VERSION</span><span class="s2">"</span>
+</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a>git<span class="w"> </span>tag<span class="w"> </span><span class="s2">"</span><span class="nv">$TAG_NAME</span><span class="s2">"</span>
+</span><span id="__span-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>HEAD
+</span><span id="__span-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="s2">"</span><span class="nv">$TAG_NAME</span><span class="s2">"</span>
+</span><span id="__span-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a>
+</span><span id="__span-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Release </span><span class="nv">$TAG_NAME</span><span class="s2"> enviada com sucesso!"</span>
+</span></code></pre></div>
+<h4 id="5-dar-permissao-e-ativar">5. Dar permissão e ativar</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>install.sh<span class="w"> </span>release.sh<span class="w"> </span>scripts/pre-commit
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>./install.sh
+</span></code></pre></div>
+<hr>
+<h3 id="flutter-dart-pubspecyaml">Flutter / Dart (<code>pubspec.yaml</code>)</h3>
+<p>No Flutter, a versão é controlada na linha <code>version: 1.2.3+45</code> do <code>pubspec.yaml</code>.</p>
+<h4 id="1-criar-a-pasta-scripts">1. Criar a pasta <code>scripts</code></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>scripts
+</span></code></pre></div>
+<h4 id="2-criar-o-arquivo-scriptspre-commit_1">2. Criar o arquivo <code>scripts/pre-commit</code></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nv">ROOT_DIR</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>rev-parse<span class="w"> </span>--show-toplevel<span class="k">)</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$ROOT_DIR</span><span class="s2">"</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="nv">CURRENT_VERSION</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-m1<span class="w"> </span><span class="s1">'^version:'</span><span class="w"> </span>pubspec.yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $2}'</span><span class="k">)</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="nv">BASE_VERSION</span><span class="o">=</span><span class="si">${</span><span class="nv">CURRENT_VERSION</span><span class="p">%%+*</span><span class="si">}</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="nv">BUILD_NUMBER</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="k">$(</span>git<span class="w"> </span>rev-list<span class="w"> </span>--count<span class="w"> </span>HEAD<span class="k">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="nv">NEW_VERSION</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">BASE_VERSION</span><span class="si">}</span><span class="s2">+</span><span class="si">${</span><span class="nv">BUILD_NUMBER</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">"s/^version: .*/version: </span><span class="si">${</span><span class="nv">NEW_VERSION</span><span class="si">}</span><span class="s2">/"</span><span class="w"> </span>pubspec.yaml
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>git<span class="w"> </span>add<span class="w"> </span>pubspec.yaml
+</span></code></pre></div>
+<h4 id="3-criar-o-arquivo-installsh_1">3. Criar o arquivo <code>install.sh</code></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nv">ROOT_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">pwd</span><span class="k">)</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$ROOT_DIR</span><span class="s2">"</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-d<span class="w"> </span>.git<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Erro: Execute na raiz de um repositório Git."</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="k">fi</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>chmod<span class="w"> </span>+x<span class="w"> </span>scripts/pre-commit
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>git<span class="w"> </span>config<span class="w"> </span>core.hooksPath<span class="w"> </span>scripts
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"core.hooksPath configurado para scripts com sucesso!"</span>
+</span></code></pre></div>
+<h4 id="4-criar-o-arquivo-releasesh_1">4. Criar o arquivo <code>release.sh</code></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nv">ROOT_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">pwd</span><span class="k">)</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$ROOT_DIR</span><span class="s2">"</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="nv">BUMP_TYPE</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"major"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"minor"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"patch"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Uso: ./release.sh &lt;major|minor|patch&gt;"</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="k">fi</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>git<span class="w"> </span>status<span class="w"> </span>--porcelain<span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Erro: Limpe o git status antes de iniciar a release."</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="k">fi</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Executando flutter analyze e testes..."</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>flutter<span class="w"> </span>analyze
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>flutter<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--no-pub
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="nv">VERSION_STR</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-m1<span class="w"> </span><span class="s1">'^version:'</span><span class="w"> </span>pubspec.yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $2}'</span><span class="k">)</span>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="nv">VERSION_ONLY</span><span class="o">=</span><span class="si">${</span><span class="nv">VERSION_STR</span><span class="p">%%+*</span><span class="si">}</span>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="nv">BUILD_NUMBER</span><span class="o">=</span><span class="si">${</span><span class="nv">VERSION_STR</span><span class="p">##*+</span><span class="si">}</span>
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="nv">IFS</span><span class="o">=</span><span class="s1">'.'</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>MAJOR<span class="w"> </span>MINOR<span class="w"> </span>PATCH<span class="w"> </span><span class="o">&lt;&lt;&lt;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$VERSION_ONLY</span><span class="s2">"</span>
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="k">case</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span><span class="k">in</span>
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a><span class="w">  </span>major<span class="o">)</span><span class="w"> </span><span class="nv">MAJOR</span><span class="o">=</span><span class="k">$((</span><span class="nv">MAJOR</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="p">;</span><span class="w"> </span><span class="nv">MINOR</span><span class="o">=</span><span class="m">0</span><span class="p">;</span><span class="w"> </span><span class="nv">PATCH</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="p">;;</span>
+</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a><span class="w">  </span>minor<span class="o">)</span><span class="w"> </span><span class="nv">MINOR</span><span class="o">=</span><span class="k">$((</span><span class="nv">MINOR</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="p">;</span><span class="w"> </span><span class="nv">PATCH</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="p">;;</span>
+</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a><span class="w">  </span>patch<span class="o">)</span><span class="w"> </span><span class="nv">PATCH</span><span class="o">=</span><span class="k">$((</span><span class="nv">PATCH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="w"> </span><span class="p">;;</span>
+</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a><span class="k">esac</span>
+</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>
+</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a><span class="nv">BUILD_NUMBER</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="k">$(</span>git<span class="w"> </span>rev-list<span class="w"> </span>--count<span class="w"> </span>HEAD<span class="k">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
+</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a><span class="nv">NEW_VERSION</span><span class="o">=</span><span class="s2">"</span><span class="nv">$MAJOR</span><span class="s2">.</span><span class="nv">$MINOR</span><span class="s2">.</span><span class="nv">$PATCH</span><span class="s2">+</span><span class="nv">$BUILD_NUMBER</span><span class="s2">"</span>
+</span><span id="__span-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a><span class="nv">TAG_NAME</span><span class="o">=</span><span class="s2">"v</span><span class="nv">$NEW_VERSION</span><span class="s2">"</span>
+</span><span id="__span-8-38"><a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>
+</span><span id="__span-8-39"><a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a><span class="k">if</span><span class="w"> </span>git<span class="w"> </span>rev-parse<span class="w"> </span>-q<span class="w"> </span>--verify<span class="w"> </span><span class="s2">"refs/tags/</span><span class="nv">$TAG_NAME</span><span class="s2">"</span><span class="w"> </span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-8-40"><a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Tag ja existe: </span><span class="nv">$TAG_NAME</span><span class="s2">"</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-8-41"><a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-8-42"><a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a><span class="k">fi</span>
+</span><span id="__span-8-43"><a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a>
+</span><span id="__span-8-44"><a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">"s/^version: .*/version: </span><span class="nv">$NEW_VERSION</span><span class="s2">/"</span><span class="w"> </span>pubspec.yaml
+</span><span id="__span-8-45"><a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a>
+</span><span id="__span-8-46"><a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a>git<span class="w"> </span>add<span class="w"> </span>pubspec.yaml
+</span><span id="__span-8-47"><a id="__codelineno-8-47" name="__codelineno-8-47" href="#__codelineno-8-47"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"chore: bump version to </span><span class="nv">$NEW_VERSION</span><span class="s2">"</span>
+</span><span id="__span-8-48"><a id="__codelineno-8-48" name="__codelineno-8-48" href="#__codelineno-8-48"></a>git<span class="w"> </span>tag<span class="w"> </span><span class="s2">"</span><span class="nv">$TAG_NAME</span><span class="s2">"</span>
+</span><span id="__span-8-49"><a id="__codelineno-8-49" name="__codelineno-8-49" href="#__codelineno-8-49"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>HEAD
+</span><span id="__span-8-50"><a id="__codelineno-8-50" name="__codelineno-8-50" href="#__codelineno-8-50"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="s2">"</span><span class="nv">$TAG_NAME</span><span class="s2">"</span>
+</span><span id="__span-8-51"><a id="__codelineno-8-51" name="__codelineno-8-51" href="#__codelineno-8-51"></a>
+</span><span id="__span-8-52"><a id="__codelineno-8-52" name="__codelineno-8-52" href="#__codelineno-8-52"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Release do Flutter </span><span class="nv">$TAG_NAME</span><span class="s2"> enviada com sucesso!"</span>
+</span></code></pre></div>
+<h4 id="5-dar-permissao-e-ativar_1">5. Dar permissão e ativar</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>install.sh<span class="w"> </span>release.sh<span class="w"> </span>scripts/pre-commit
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>./install.sh
+</span></code></pre></div>
+<hr>
+<h3 id="angular-react-nodejs-packagejson">Angular / React / Node.js (<code>package.json</code>)</h3>
+<p>Em projetos baseados em Node.js (Angular, React, Vue, NestJS), a versão é armazenada no arquivo <code>package.json</code>.</p>
+<h4 id="1-criar-a-pasta-scripts_1">1. Criar a pasta <code>scripts</code></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>scripts
+</span></code></pre></div>
+<h4 id="2-criar-o-arquivo-scriptspre-commit_2">2. Criar o arquivo <code>scripts/pre-commit</code></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Garante que o package.json seja adicionado ao commit caso tenha sido alterado</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>git<span class="w"> </span>add<span class="w"> </span>package.json<span class="w"> </span>package-lock.json<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+</span></code></pre></div>
+<h4 id="3-criar-o-arquivo-installsh_2">3. Criar o arquivo <code>install.sh</code></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nv">ROOT_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">pwd</span><span class="k">)</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$ROOT_DIR</span><span class="s2">"</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>chmod<span class="w"> </span>+x<span class="w"> </span>scripts/pre-commit
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>git<span class="w"> </span>config<span class="w"> </span>core.hooksPath<span class="w"> </span>scripts
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"core.hooksPath configurado para scripts com sucesso!"</span>
+</span></code></pre></div>
+<h4 id="4-criar-o-arquivo-releasesh_2">4. Criar o arquivo <code>release.sh</code></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="nv">ROOT_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">pwd</span><span class="k">)</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$ROOT_DIR</span><span class="s2">"</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="nv">BUMP_TYPE</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"major"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"minor"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"patch"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Uso: ./release.sh &lt;major|minor|patch&gt;"</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="k">fi</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>git<span class="w"> </span>status<span class="w"> </span>--porcelain<span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Erro: Limpe as alteracoes pendentes antes de gerar release."</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="k">fi</span>
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Executando testes e linter..."</span>
+</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>npm<span class="w"> </span>run<span class="w"> </span>lint<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>npm<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--<span class="w"> </span>--watch<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+</span><span id="__span-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>
+</span><span id="__span-13-23"><a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a><span class="c1"># Incrementa versao no package.json via npm</span>
+</span><span id="__span-13-24"><a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a><span class="nv">NEW_VERSION</span><span class="o">=</span><span class="k">$(</span>npm<span class="w"> </span>version<span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span>--no-git-tag-version<span class="k">)</span>
+</span><span id="__span-13-25"><a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a><span class="nv">TAG_NAME</span><span class="o">=</span><span class="s2">"</span><span class="nv">$NEW_VERSION</span><span class="s2">"</span>
+</span><span id="__span-13-26"><a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a>
+</span><span id="__span-13-27"><a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Nova versao gerada: </span><span class="nv">$NEW_VERSION</span><span class="s2">"</span>
+</span><span id="__span-13-28"><a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a>
+</span><span id="__span-13-29"><a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a>git<span class="w"> </span>add<span class="w"> </span>package.json<span class="w"> </span>package-lock.json
+</span><span id="__span-13-30"><a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"chore: bump version to </span><span class="nv">$NEW_VERSION</span><span class="s2">"</span>
+</span><span id="__span-13-31"><a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a>git<span class="w"> </span>tag<span class="w"> </span><span class="s2">"</span><span class="nv">$TAG_NAME</span><span class="s2">"</span>
+</span><span id="__span-13-32"><a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>HEAD
+</span><span id="__span-13-33"><a id="__codelineno-13-33" name="__codelineno-13-33" href="#__codelineno-13-33"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="s2">"</span><span class="nv">$TAG_NAME</span><span class="s2">"</span>
+</span><span id="__span-13-34"><a id="__codelineno-13-34" name="__codelineno-13-34" href="#__codelineno-13-34"></a>
+</span><span id="__span-13-35"><a id="__codelineno-13-35" name="__codelineno-13-35" href="#__codelineno-13-35"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Release do Angular/Node </span><span class="nv">$TAG_NAME</span><span class="s2"> concluida!"</span>
+</span></code></pre></div>
+<h4 id="5-dar-permissao-e-ativar_2">5. Dar permissão e ativar</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>install.sh<span class="w"> </span>release.sh<span class="w"> </span>scripts/pre-commit
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>./install.sh
+</span></code></pre></div>
+<hr>
+<h3 id="java-spring-boot-maven-pomxml-ou-gradle">Java Spring Boot (Maven <code>pom.xml</code> ou Gradle)</h3>
+<h4 id="para-projetos-maven-pomxml">Para projetos Maven (<code>pom.xml</code>):</h4>
+<h5 id="1-criar-a-pasta-scripts-e-o-installsh">1. Criar a pasta <code>scripts</code> e o <code>install.sh</code></h5>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>scripts
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>chmod<span class="w"> </span>+x<span class="w"> </span>scripts
+</span></code></pre></div>
+<h5 id="2-criar-o-arquivo-releasesh-para-maven">2. Criar o arquivo <code>release.sh</code> para Maven</h5>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nv">ROOT_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">pwd</span><span class="k">)</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$ROOT_DIR</span><span class="s2">"</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="nv">BUMP_TYPE</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">patch</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"major"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"minor"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">"patch"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Uso: ./release.sh &lt;major|minor|patch&gt;"</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="k">fi</span>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>git<span class="w"> </span>status<span class="w"> </span>--porcelain<span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Erro: Limpe o projeto antes de gerar release."</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="k">fi</span>
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>
+</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Executando testes unitarios no Maven..."</span>
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>mvn<span class="w"> </span><span class="nb">test</span>
+</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>
+</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="nv">CURRENT_VERSION</span><span class="o">=</span><span class="k">$(</span>mvn<span class="w"> </span>help:evaluate<span class="w"> </span>-Dexpression<span class="o">=</span>project.version<span class="w"> </span>-q<span class="w"> </span>-DforceStdout<span class="k">)</span>
+</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>
+</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a><span class="nv">IFS</span><span class="o">=</span><span class="s1">'.'</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>MAJOR<span class="w"> </span>MINOR<span class="w"> </span>PATCH<span class="w"> </span><span class="o">&lt;&lt;&lt;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$CURRENT_VERSION</span><span class="s2">"</span>
+</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a>
+</span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a><span class="k">case</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BUMP_TYPE</span><span class="s2">"</span><span class="w"> </span><span class="k">in</span>
+</span><span id="__span-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a><span class="w">  </span>major<span class="o">)</span><span class="w"> </span><span class="nv">MAJOR</span><span class="o">=</span><span class="k">$((</span><span class="nv">MAJOR</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="p">;</span><span class="w"> </span><span class="nv">MINOR</span><span class="o">=</span><span class="m">0</span><span class="p">;</span><span class="w"> </span><span class="nv">PATCH</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="p">;;</span>
+</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a><span class="w">  </span>minor<span class="o">)</span><span class="w"> </span><span class="nv">MINOR</span><span class="o">=</span><span class="k">$((</span><span class="nv">MINOR</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="p">;</span><span class="w"> </span><span class="nv">PATCH</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="p">;;</span>
+</span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a><span class="w">  </span>patch<span class="o">)</span><span class="w"> </span><span class="nv">PATCH</span><span class="o">=</span><span class="k">$((</span><span class="nv">PATCH</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="w"> </span><span class="p">;;</span>
+</span><span id="__span-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a><span class="k">esac</span>
+</span><span id="__span-16-31"><a id="__codelineno-16-31" name="__codelineno-16-31" href="#__codelineno-16-31"></a>
+</span><span id="__span-16-32"><a id="__codelineno-16-32" name="__codelineno-16-32" href="#__codelineno-16-32"></a><span class="nv">NEW_VERSION</span><span class="o">=</span><span class="s2">"</span><span class="nv">$MAJOR</span><span class="s2">.</span><span class="nv">$MINOR</span><span class="s2">.</span><span class="nv">$PATCH</span><span class="s2">"</span>
+</span><span id="__span-16-33"><a id="__codelineno-16-33" name="__codelineno-16-33" href="#__codelineno-16-33"></a>mvn<span class="w"> </span>versions:set<span class="w"> </span>-DnewVersion<span class="o">=</span><span class="s2">"</span><span class="nv">$NEW_VERSION</span><span class="s2">"</span><span class="w"> </span>-DgenerateBackupPoms<span class="o">=</span><span class="nb">false</span>
+</span><span id="__span-16-34"><a id="__codelineno-16-34" name="__codelineno-16-34" href="#__codelineno-16-34"></a>
+</span><span id="__span-16-35"><a id="__codelineno-16-35" name="__codelineno-16-35" href="#__codelineno-16-35"></a>git<span class="w"> </span>add<span class="w"> </span>pom.xml
+</span><span id="__span-16-36"><a id="__codelineno-16-36" name="__codelineno-16-36" href="#__codelineno-16-36"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"chore(java): release v</span><span class="nv">$NEW_VERSION</span><span class="s2">"</span>
+</span><span id="__span-16-37"><a id="__codelineno-16-37" name="__codelineno-16-37" href="#__codelineno-16-37"></a>git<span class="w"> </span>tag<span class="w"> </span><span class="s2">"v</span><span class="nv">$NEW_VERSION</span><span class="s2">"</span>
+</span><span id="__span-16-38"><a id="__codelineno-16-38" name="__codelineno-16-38" href="#__codelineno-16-38"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>HEAD
+</span><span id="__span-16-39"><a id="__codelineno-16-39" name="__codelineno-16-39" href="#__codelineno-16-39"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="s2">"v</span><span class="nv">$NEW_VERSION</span><span class="s2">"</span>
+</span><span id="__span-16-40"><a id="__codelineno-16-40" name="__codelineno-16-40" href="#__codelineno-16-40"></a>
+</span><span id="__span-16-41"><a id="__codelineno-16-41" name="__codelineno-16-41" href="#__codelineno-16-41"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Release Java Maven v</span><span class="nv">$NEW_VERSION</span><span class="s2"> enviada com sucesso!"</span>
+</span></code></pre></div>
+<h4 id="para-projetos-gradle-buildgradle">Para projetos Gradle (<code>build.gradle</code>):</h4>
+<p>No Gradle, a versão fica em <code>version = '1.0.0'</code> no <code>build.gradle</code>. O <code>release.sh</code> executa <code>./gradlew check test</code> e atualiza a linha <code>version = ...</code> usando <code>sed</code>.</p>
+<hr>
+<h2 id="5-como-instalarativar-em-um-projeto-clonado-ou-existente">5. Como Instalar/Ativar em um Projeto Clonado ou Existente</h2>
+<p>Se você <strong>já clonou</strong> um repositório que possui os scripts (<code>install.sh</code>, <code>release.sh</code>, <code>scripts/pre-commit</code>), você não precisa criar nada!</p>
+<p>Basta rodar <strong>um único comando</strong> na raiz do projeto:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>./install.sh
+</span></code></pre></div>
+<h3 id="o-que-esse-comando-faz">O que esse comando faz?</h3>
+<ol>
+<li>Garante permissão de execução aos scripts (<code>chmod +x</code>).</li>
+<li>Configura o Git local (<code>git config core.hooksPath scripts</code>) para que o hook de <code>pre-commit</code> passe a rodar automaticamente na sua máquina.</li>
+</ol>
+<blockquote>
+<p>💡 <strong>Lembrete</strong>: Essa configuração do Git é local por clone. Sempre que clonar o projeto em uma nova máquina ou pasta, execute <code>./install.sh</code> uma única vez.</p>
+</blockquote>
+<hr>
+<h2 id="6-como-usar-no-dia-a-dia-guia-pratico">6. Como usar no dia a dia (Guia Prático)</h2>
+<h3 id="1-trabalho-diario-commits">1. Trabalho Diário (Commits)</h3>
+<p>Desenvolva seu código normalmente:
+</p><div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>git<span class="w"> </span>add<span class="w"> </span>.
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: adicionado filtro de busca"</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</span></code></pre></div>
+* O Git hook ajusta e adiciona o arquivo de versão automaticamente antes de fechar o commit.<p></p>
+<h3 id="2-gerar-uma-release-oficial">2. Gerar uma Release Oficial</h3>
+<p>Quando o código for publicado em homologação ou produção:
+</p><div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Para correções de bugs (ex: 1.0.0 -&gt; 1.0.1):</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>./release.sh<span class="w"> </span>patch
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Para novas funcionalidades compatíveis (ex: 1.0.0 -&gt; 1.1.0):</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>./release.sh<span class="w"> </span>minor
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="c1"># Para grandes reformulações ou quebras de compatibilidade (ex: 1.0.0 -&gt; 2.0.0):</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>./release.sh<span class="w"> </span>major
+</span></code></pre></div><p></p>
+<hr>
+<h2 id="7-perguntas-frequentes-e-resolucao-de-problemas">7. Perguntas Frequentes e Resolução de Problemas</h2>
+<h3 id="1-permission-denied-ao-tentar-rodar-um-sh">1. "Permission denied" ao tentar rodar um <code>.sh</code></h3>
+<p>Dê permissão de execução executando:
+</p><div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>install.sh<span class="w"> </span>release.sh<span class="w"> </span>scripts/pre-commit
+</span></code></pre></div><p></p>
+<h3 id="2-como-verificar-se-o-hook-esta-ativo">2. Como verificar se o hook está ativo?</h3>
+<p>Execute no terminal:
+</p><div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>git<span class="w"> </span>config<span class="w"> </span>core.hooksPath
+</span></code></pre></div>
+Se retornar <code>scripts</code>, está ativo. Para testar na prática, faça um commit e verifique se o arquivo de versão foi alterado automaticamente.<p></p>
+<h3 id="3-o-releasesh-falhou-nos-testes-e-agora">3. O <code>release.sh</code> falhou nos testes, e agora?</h3>
+<p>O script é projetado para <strong>não prosseguir</strong> se houver erro nos testes ou no linter. Corrija os testes que falharam, faça commit das correções e tente rodar o <code>./release.sh</code> novamente.</p>
+<h3 id="4-o-meu-projeto-nao-e-flutter-nem-angular-nem-java-como-usar">4. O meu projeto não é Flutter, nem Angular, nem Java. Como usar?</h3>
+<p>Basta seguir a <strong>Opção A (Projeto Genérico)</strong> descrita na Seção 4, que utiliza o arquivo <code>VERSION</code>.</p>
+<h3 id="5-preciso-rodar-installsh-de-novo-se-fizer-git-clone-novamente">5. Preciso rodar <code>install.sh</code> de novo se fizer <code>git clone</code> novamente?</h3>
+<p><strong>Sim.</strong> A configuração <code>core.hooksPath</code> é local a cada clone do repositório. Sempre que clonar o projeto em uma máquina nova ou em outra pasta, execute <code>./install.sh</code> uma única vez.</p>
+<h3 id="6-como-rodar-no-windows">6. Como rodar no Windows?</h3>
+<p>No Windows, utilize o terminal <strong>Git Bash</strong> (instalado junto com o Git) ou o <strong>WSL</strong> (Windows Subsystem for Linux) para executar os comandos <code>.sh</code>.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.expand", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

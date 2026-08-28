@@ -1,0 +1,2636 @@
+<!DOCTYPE html><html lang="pt" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://alternatribe.github.io/Flutter/EVENT_BUS/">
+      
+      
+        <link rel="prev" href="../../Estrutura/teste/">
+      
+      
+        <link rel="next" href="../teste/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Event Bus (Domain Events) - Central de Tutoriais AlternaTribe</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#guia-arquitetural-event-bus-domain-events-flutterdart" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Central de Tutoriais AlternaTribe" class="md-header__button md-logo" aria-label="Central de Tutoriais AlternaTribe" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Central de Tutoriais AlternaTribe
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Event Bus (Domain Events)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Central de Tutoriais AlternaTribe" class="md-nav__button md-logo" aria-label="Central de Tutoriais AlternaTribe" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Central de Tutoriais AlternaTribe
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Markdown para MkDocs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angular
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Angular
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Angular/angular_releases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Angular Renaissance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Angular/padronizacao_angular/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Padronização de Código no Angular
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Angular/signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIGNALS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estrutura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Estrutura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Estrutura/teste/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teste
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flutter
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Flutter
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Bus (Domain Events)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Bus (Domain Events)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-definicao-e-escopo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Definição e Escopo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Definição e Escopo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-o-que-o-event-bus-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. O Que o Event Bus É
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-o-que-o-event-bus-nao-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. O Que o Event Bus NÃO É
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-o-problema-real-que-o-event-bus-resolve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. O Problema Real Que o Event Bus Resolve
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. O Problema Real Que o Event Bus Resolve">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-cenario-concreto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Cenário Concreto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-sem-event-bus-acoplamento-direto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Sem Event Bus — Acoplamento Direto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-com-event-bus-desacoplamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Com Event Bus — Desacoplamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-por-que-streams-signals-valuenotifier-nao-substituem-o-event-bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Por Que Streams / Signals / ValueNotifier NÃO Substituem o Event Bus
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Por Que Streams / Signals / ValueNotifier NÃO Substituem o Event Bus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-a-diferenca-semantica-fundamental" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. A Diferença Semântica Fundamental
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-prova-por-contradicao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Prova por Contradição
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-analogia-operacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Analogia Operacional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-resumo-visual-cada-ferramenta-para-seu-problema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Resumo Visual: Cada Ferramenta Para Seu Problema
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-regras-de-uso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Regras de Uso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Regras de Uso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-quem-publica-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Quem PUBLICA Eventos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-quem-consome-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Quem CONSOME Eventos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-matriz-de-permissoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Matriz de Permissões
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-anatomia-de-um-evento-de-dominio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Anatomia de um Evento de Domínio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-convencoes-de-nomenclatura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5. Convenções de Nomenclatura
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-quando-nao-usar-o-event-bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Quando NÃO Usar o Event Bus
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Quando NÃO Usar o Event Bus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-nao-use-para-atualizar-a-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Não Use Para Atualizar a UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-nao-use-para-comunicacao-dentro-do-mesmo-dominio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Não Use Para Comunicação Dentro do Mesmo Domínio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-nao-use-para-consultas-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Não Use Para Consultas (Queries)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-nao-use-para-eventos-de-infraestrutura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4. Não Use Para Eventos de Infraestrutura
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-tratamento-de-falhas-nos-listeners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Tratamento de Falhas nos Listeners
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Tratamento de Falhas nos Listeners">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estrategia-a-fire-and-forget-tolerante-a-falhas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estratégia A: Fire-and-Forget (Tolerante a Falhas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrategia-b-transacional-consistencia-forte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estratégia B: Transacional (Consistência Forte)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrategia-c-hibrida-recomendada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estratégia C: Híbrida (Recomendada)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-comparativo-event-bus-vs-alternativas-no-ecossistema-flutter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Comparativo: Event Bus vs. Alternativas no Ecossistema Flutter
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Comparativo: Event Bus vs. Alternativas no Ecossistema Flutter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-event-bus-vs-stream-drift-watch-signal-valuenotifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1. Event Bus vs. Stream (Drift .watch()) / Signal / ValueNotifier
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-event-bus-vs-bloc-cubit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2. Event Bus vs. Bloc / Cubit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-event-bus-vs-chamada-direta-de-metodo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3. Event Bus vs. Chamada Direta de Método
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-event-bus-vs-event-sourcing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4. Event Bus vs. Event Sourcing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-implementacao-minima-de-referencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Implementação Mínima de Referência
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Implementação Mínima de Referência">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-classe-base-domainevent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. Classe Base DomainEvent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-event-bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2. Event Bus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-listener-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3. Listener Base
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-exemplo-completo-de-listener" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4. Exemplo Completo de Listener
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-registro-no-container-de-di" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5. Registro no Container de DI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-checklist-de-implementacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Checklist de Implementação
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-resumo-executivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Resumo Executivo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../teste/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flutter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SpringBoot
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SpringBoot
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SpringBoot/padronizacao_springboot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Padronização de Código no Spring Boot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Versionamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Versionamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Versionamento/semver_git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Versionamento Automático no Git
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#1-definicao-e-escopo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Definição e Escopo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Definição e Escopo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-o-que-o-event-bus-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. O Que o Event Bus É
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-o-que-o-event-bus-nao-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. O Que o Event Bus NÃO É
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-o-problema-real-que-o-event-bus-resolve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. O Problema Real Que o Event Bus Resolve
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. O Problema Real Que o Event Bus Resolve">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-cenario-concreto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Cenário Concreto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-sem-event-bus-acoplamento-direto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Sem Event Bus — Acoplamento Direto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-com-event-bus-desacoplamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Com Event Bus — Desacoplamento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-por-que-streams-signals-valuenotifier-nao-substituem-o-event-bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Por Que Streams / Signals / ValueNotifier NÃO Substituem o Event Bus
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Por Que Streams / Signals / ValueNotifier NÃO Substituem o Event Bus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-a-diferenca-semantica-fundamental" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. A Diferença Semântica Fundamental
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-prova-por-contradicao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Prova por Contradição
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-analogia-operacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Analogia Operacional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-resumo-visual-cada-ferramenta-para-seu-problema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Resumo Visual: Cada Ferramenta Para Seu Problema
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-regras-de-uso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Regras de Uso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Regras de Uso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-quem-publica-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Quem PUBLICA Eventos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-quem-consome-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Quem CONSOME Eventos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-matriz-de-permissoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Matriz de Permissões
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-anatomia-de-um-evento-de-dominio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Anatomia de um Evento de Domínio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-convencoes-de-nomenclatura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5. Convenções de Nomenclatura
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-quando-nao-usar-o-event-bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Quando NÃO Usar o Event Bus
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Quando NÃO Usar o Event Bus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-nao-use-para-atualizar-a-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Não Use Para Atualizar a UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-nao-use-para-comunicacao-dentro-do-mesmo-dominio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Não Use Para Comunicação Dentro do Mesmo Domínio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-nao-use-para-consultas-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Não Use Para Consultas (Queries)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-nao-use-para-eventos-de-infraestrutura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4. Não Use Para Eventos de Infraestrutura
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-tratamento-de-falhas-nos-listeners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Tratamento de Falhas nos Listeners
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Tratamento de Falhas nos Listeners">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estrategia-a-fire-and-forget-tolerante-a-falhas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estratégia A: Fire-and-Forget (Tolerante a Falhas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrategia-b-transacional-consistencia-forte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estratégia B: Transacional (Consistência Forte)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrategia-c-hibrida-recomendada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estratégia C: Híbrida (Recomendada)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-comparativo-event-bus-vs-alternativas-no-ecossistema-flutter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Comparativo: Event Bus vs. Alternativas no Ecossistema Flutter
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Comparativo: Event Bus vs. Alternativas no Ecossistema Flutter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-event-bus-vs-stream-drift-watch-signal-valuenotifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1. Event Bus vs. Stream (Drift .watch()) / Signal / ValueNotifier
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-event-bus-vs-bloc-cubit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2. Event Bus vs. Bloc / Cubit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-event-bus-vs-chamada-direta-de-metodo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3. Event Bus vs. Chamada Direta de Método
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-event-bus-vs-event-sourcing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4. Event Bus vs. Event Sourcing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-implementacao-minima-de-referencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Implementação Mínima de Referência
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Implementação Mínima de Referência">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-classe-base-domainevent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. Classe Base DomainEvent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-event-bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2. Event Bus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-listener-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3. Listener Base
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-exemplo-completo-de-listener" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4. Exemplo Completo de Listener
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-registro-no-container-de-di" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5. Registro no Container de DI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-checklist-de-implementacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Checklist de Implementação
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-resumo-executivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Resumo Executivo
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="guia-arquitetural-event-bus-domain-events-flutterdart">Guia Arquitetural: Event Bus (Domain Events) — Flutter/Dart</h1>
+<blockquote>
+<p><strong>Propósito deste documento:</strong> Servir como referência arquitetural autossuficiente sobre o uso correto do padrão Event Bus (Domain Events) em projetos Flutter/Dart que adotam arquitetura em camadas (MVVM, MVC, Clean Architecture, Hexagonal, etc.). Adapte os exemplos de estrutura de pastas e injeção de dependência à convenção do seu projeto.</p>
+</blockquote>
+<hr>
+<h2 id="1-definicao-e-escopo">1. Definição e Escopo</h2>
+<p>O Event Bus é um <strong>mediador interno</strong> usado exclusivamente para orquestrar <strong>efeitos colaterais entre agregados de domínio diferentes</strong> após uma operação de escrita bem-sucedida. Ele implementa o padrão <strong>Domain Events</strong> do Domain-Driven Design (DDD).</p>
+<p>Em outras palavras, ele comunica eventos entre domínios diferentes, permitindo que não tenham acoplamento entre si. Assim, quem publica o evento não precisa saber da existência de outros módulos, mas todos os listeners inscritos (quem está escutando) saberão que a ação ocorreu (por ex.: houve uma alteração nos dados do domínio).</p>
+<h3 id="11-o-que-o-event-bus-e">1.1. O Que o Event Bus É</h3>
+<ul>
+<li>Um canal de comunicação <strong>unidirecional</strong> entre domínios de negócio.</li>
+<li>Restrito à <strong>camada de aplicação/orquestração</strong> (<code>application/listeners/</code>), invisível para a UI.</li>
+<li>O mecanismo que garante o <strong>Open/Closed Principle</strong> entre domínios: adicionar um novo efeito colateral significa adicionar um novo <code>Listener</code>, sem modificar o código que publica o evento.</li>
+</ul>
+<h3 id="12-o-que-o-event-bus-nao-e">1.2. O Que o Event Bus NÃO É</h3>
+<ul>
+<li><strong>Não é</strong> um barramento de mensagens entre Widgets e Repositories.</li>
+<li><strong>Não é</strong> um mecanismo de atualização reativa de telas (para isso, use <code>ChangeNotifier</code>, <code>ValueNotifier</code>, <code>Signals</code> ou <code>Stream</code>).</li>
+<li><strong>Não é</strong> um substituto para Streams do Drift/Isar, <code>ValueListenable</code>, <code>Signal</code> ou qualquer padrão reativo de UI.</li>
+<li><strong>Não é</strong> um sistema de pub/sub genérico para qualquer comunicação.</li>
+<li><strong>Não é</strong> um mecanismo de request-response (como <code>Bloc</code> events ou <code>MediatR</code>).</li>
+</ul>
+<hr>
+<h2 id="2-o-problema-real-que-o-event-bus-resolve">2. O Problema Real Que o Event Bus Resolve</h2>
+<h3 id="21-cenario-concreto">2.1. Cenário Concreto</h3>
+<p>Considere um sistema onde, ao finalizar uma venda, as seguintes ações precisam acontecer:</p>
+<ol>
+<li><strong>Baixar estoque</strong> dos produtos vendidos (Domínio: Estoque).</li>
+<li><strong>Registrar movimentação financeira</strong> (Domínio: Financeiro).</li>
+<li><strong>Imprimir comprovante</strong> (Domínio: Impressão).</li>
+<li><strong>Notificar painel de produção</strong> (Domínio: Produção).</li>
+<li><strong>Atualizar métricas</strong> de desempenho (Domínio: BI/Relatórios).</li>
+</ol>
+<p>Nenhuma dessas ações faz parte da <strong>responsabilidade primária</strong> de "finalizar uma venda". São efeitos colaterais em domínios alheios.</p>
+<h3 id="22-sem-event-bus-acoplamento-direto">2.2. Sem Event Bus — Acoplamento Direto</h3>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">class</span><span class="w"> </span><span class="nc">VendaRepository</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="c1">// 5 dependências de outros domínios:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">EstoqueRepository</span><span class="w"> </span><span class="n">_estoqueRepo</span><span class="p">;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">FinanceiroRepository</span><span class="w"> </span><span class="n">_financeiroRepo</span><span class="p">;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">ImpressaoService</span><span class="w"> </span><span class="n">_impressaoService</span><span class="p">;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">ProducaoService</span><span class="w"> </span><span class="n">_producaoService</span><span class="p">;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">RelatorioRepository</span><span class="w"> </span><span class="n">_relatorioRepo</span><span class="p">;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">Venda</span><span class="o">&gt;</span><span class="w"> </span><span class="n">finalizarVenda</span><span class="p">(</span><span class="n">Venda</span><span class="w"> </span><span class="n">venda</span><span class="p">)</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">_vendaService</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">_mapper</span><span class="p">.</span><span class="n">toDto</span><span class="p">(</span><span class="n">venda</span><span class="p">));</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="c1">// VendaRepository CONHECE todos os domínios afetados:</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="kd">await</span><span class="w"> </span><span class="n">_estoqueRepo</span><span class="p">.</span><span class="n">darBaixa</span><span class="p">(</span><span class="n">venda</span><span class="p">.</span><span class="n">itens</span><span class="p">);</span><span class="w">          </span><span class="c1">// ❌ acoplamento</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="kd">await</span><span class="w"> </span><span class="n">_financeiroRepo</span><span class="p">.</span><span class="n">registrarReceita</span><span class="p">(</span><span class="n">venda</span><span class="p">);</span><span class="w">      </span><span class="c1">// ❌ acoplamento</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="kd">await</span><span class="w"> </span><span class="n">_impressaoService</span><span class="p">.</span><span class="n">imprimirCupom</span><span class="p">(</span><span class="n">venda</span><span class="p">);</span><span class="w">       </span><span class="c1">// ❌ acoplamento</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="kd">await</span><span class="w"> </span><span class="n">_producaoService</span><span class="p">.</span><span class="n">removerPedido</span><span class="p">(</span><span class="n">venda</span><span class="p">.</span><span class="n">id</span><span class="p">);</span><span class="w">     </span><span class="c1">// ❌ acoplamento</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="kd">await</span><span class="w"> </span><span class="n">_relatorioRepo</span><span class="p">.</span><span class="n">atualizarMetricas</span><span class="p">(</span><span class="n">venda</span><span class="p">);</span><span class="w">      </span><span class="c1">// ❌ acoplamento</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Success</span><span class="p">(</span><span class="n">venda</span><span class="p">);</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Problemas:</strong>
+- <code>VendaRepository</code> acumula <strong>N dependências</strong> de outros domínios.
+- Cada novo efeito colateral exige <strong>modificar</strong> <code>VendaRepository</code> — viola Open/Closed.
+- Se <code>ImpressaoService</code> falhar, a venda inteira pode falhar — mesmo que impressão não seja crítica.
+- Impossível testar <code>VendaRepository</code> isoladamente sem mocar 5 dependências com <code>mocktail</code>.
+- Viola <strong>Single Responsibility</strong>: o repositório de Venda sabe sobre estoque, finanças, impressão, produção e relatórios.</p>
+<h3 id="23-com-event-bus-desacoplamento">2.3. Com Event Bus — Desacoplamento</h3>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// ── PUBLICADOR (não conhece nenhum consumidor) ────────────────</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">class</span><span class="w"> </span><span class="nc">VendaRepository</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">VendaService</span><span class="w"> </span><span class="n">_vendaService</span><span class="p">;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">VendaMapper</span><span class="w"> </span><span class="n">_mapper</span><span class="p">;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">EventBus</span><span class="w"> </span><span class="n">_eventBus</span><span class="p">;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">Venda</span><span class="o">&gt;</span><span class="w"> </span><span class="n">finalizarVenda</span><span class="p">(</span><span class="n">Venda</span><span class="w"> </span><span class="n">venda</span><span class="p">)</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">_vendaService</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">_mapper</span><span class="p">.</span><span class="n">toDto</span><span class="p">(</span><span class="n">venda</span><span class="p">));</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="c1">// Publica o FATO e vai embora. Não sabe quem reage.</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="n">_eventBus</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">VendaFinalizadaEvent</span><span class="p">(</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">      </span><span class="nl">vendaId:</span><span class="w"> </span><span class="n">venda</span><span class="p">.</span><span class="n">id</span><span class="p">,</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">      </span><span class="nl">itensVendidos:</span><span class="w"> </span><span class="n">venda</span><span class="p">.</span><span class="n">itens</span><span class="p">,</span><span class="w">  </span><span class="c1">// snapshot completo</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">      </span><span class="nl">valorTotal:</span><span class="w"> </span><span class="n">venda</span><span class="p">.</span><span class="n">total</span><span class="p">,</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">      </span><span class="nl">operadorId:</span><span class="w"> </span><span class="n">venda</span><span class="p">.</span><span class="n">operadorId</span><span class="p">,</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">      </span><span class="nl">dataFinalizacao:</span><span class="w"> </span><span class="n">DateTime</span><span class="p">.</span><span class="n">now</span><span class="p">(),</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="p">));</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Success</span><span class="p">(</span><span class="n">venda</span><span class="p">);</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="p">}</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="c1">// ── CONSUMIDORES (cada um isolado em seu Listener) ────────────</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="kd">class</span><span class="w"> </span><span class="nc">EstoqueListener</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">ProdutoRepository</span><span class="w"> </span><span class="n">_produtoRepo</span><span class="p">;</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">  </span><span class="n">EstoqueListener</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">_produtoRepo</span><span class="p">);</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">onVendaFinalizada</span><span class="p">(</span><span class="n">VendaFinalizadaEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">    </span><span class="n">_produtoRepo</span><span class="p">.</span><span class="n">darBaixaDeEstoquePorVenda</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">itensVendidos</span><span class="p">);</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="p">}</span>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="kd">class</span><span class="w"> </span><span class="nc">FinanceiroListener</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">FinanceiroRepository</span><span class="w"> </span><span class="n">_financeiroRepo</span><span class="p">;</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">  </span><span class="n">FinanceiroListener</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">_financeiroRepo</span><span class="p">);</span>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">onVendaFinalizada</span><span class="p">(</span><span class="n">VendaFinalizadaEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="w">    </span><span class="n">_financeiroRepo</span><span class="p">.</span><span class="n">registrarReceitaDeVenda</span><span class="p">(</span>
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="w">      </span><span class="n">event</span><span class="p">.</span><span class="n">vendaId</span><span class="p">,</span>
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="w">      </span><span class="n">event</span><span class="p">.</span><span class="n">valorTotal</span><span class="p">,</span>
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="w">    </span><span class="p">);</span>
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="p">}</span>
+</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>
+</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="kd">class</span><span class="w"> </span><span class="nc">ImpressaoListener</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">ImpressaoService</span><span class="w"> </span><span class="n">_impressaoService</span><span class="p">;</span>
+</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>
+</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a><span class="w">  </span><span class="n">ImpressaoListener</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">_impressaoService</span><span class="p">);</span>
+</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>
+</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">onVendaFinalizada</span><span class="p">(</span><span class="n">VendaFinalizadaEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a><span class="w">    </span><span class="n">_impressaoService</span><span class="p">.</span><span class="n">imprimirCupomDeVenda</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">vendaId</span><span class="p">);</span>
+</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Resultado:</strong>
+- <code>VendaRepository</code> tem <strong>zero dependências</strong> de outros domínios.
+- Novo efeito colateral = novo <code>Listener</code>. Nenhum código existente muda.
+- Falha na impressão não afeta a venda nem o estoque.
+- Cada Listener é testável isoladamente com <code>mocktail</code>.
+- Cada domínio evolui de forma independente.</p>
+<hr>
+<h2 id="3-por-que-streams-signals-valuenotifier-nao-substituem-o-event-bus">3. Por Que Streams / Signals / ValueNotifier NÃO Substituem o Event Bus</h2>
+<h3 id="31-a-diferenca-semantica-fundamental">3.1. A Diferença Semântica Fundamental</h3>
+<table>
+<thead>
+<tr>
+<th>Conceito</th>
+<th>Semântica</th>
+<th>Pergunta que responde</th>
+<th>Natureza</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stream / Signal / ValueNotifier</strong></td>
+<td>Estado atual dos dados</td>
+<td><em>"Como estão os dados agora?"</em></td>
+<td>Contínuo — deduplica, último valor vence</td>
+</tr>
+<tr>
+<td><strong>Evento de Domínio</strong></td>
+<td>Fato de negócio que ocorreu</td>
+<td><em>"O que acabou de acontecer?"</em></td>
+<td>Discreto — cada ocorrência é única e deve ser processada</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-prova-por-contradicao">3.2. Prova por Contradição</h3>
+<p>Tentando usar <code>Stream</code> do Drift para efeitos colaterais entre domínios:</p>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// ❌ TENTATIVA: ProdutoRepository "observa" vendas via Stream reativo</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">class</span><span class="w"> </span><span class="nc">ProdutoRepository</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="n">ProdutoRepository</span><span class="p">(</span><span class="n">VendaRepository</span><span class="w"> </span><span class="n">vendaRepo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">vendaRepo</span><span class="p">.</span><span class="n">watchVendas</span><span class="p">().</span><span class="n">listen</span><span class="p">((</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Venda</span><span class="o">&gt;</span><span class="w"> </span><span class="n">vendas</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="c1">// PROBLEMA 1 — Qual venda é nova?</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="c1">// O .watch() do Drift emite a lista INTEIRA de vendas.</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">      </span><span class="c1">// Preciso manter cache do estado anterior e fazer diff.</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">      </span><span class="c1">// PROBLEMA 2 — Perda de eventos</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">      </span><span class="c1">// Se duas vendas forem finalizadas em rápida sequência,</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">      </span><span class="c1">// o Drift pode coalescer as notificações e emitir apenas</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">      </span><span class="c1">// UMA atualização com ambas já incluídas.</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">      </span><span class="c1">// Uma das vendas não é "vista" como nova pelo diff.</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">      </span><span class="c1">// PROBLEMA 3 — Reprocessamento no restart</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">      </span><span class="c1">// Se o app reiniciar, o .watch() emite todas as vendas existentes.</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">      </span><span class="c1">// Vou dar baixa no estoque de vendas históricas?</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">      </span><span class="c1">// Preciso de um marcador "já processado" → reinventei um event log.</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">      </span><span class="c1">// PROBLEMA 4 — Acoplamento</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">      </span><span class="c1">// ProdutoRepository agora DEPENDE de VendaRepository.</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">      </span><span class="c1">// Se FinanceiroRepository também precisar reagir,</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">      </span><span class="c1">// também vai depender de VendaRepository. Todos dependem de todos.</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">      </span><span class="c1">// PROBLEMA 5 — Sem intenção</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">      </span><span class="c1">// A stream diz O QUE EXISTE, não O QUE ACONTECEU.</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">      </span><span class="c1">// Venda cancelada e venda nova aparecem igual na stream.</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">      </span><span class="c1">// Não tenho a INTENÇÃO: foi criação? atualização? cancelamento?</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="w">    </span><span class="p">});</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="33-analogia-operacional">3.3. Analogia Operacional</h3>
+<ul>
+<li><strong>Event Bus</strong> = <strong>Comanda de restaurante</strong>: cada pedido é uma comanda individual. Mesmo que cheguem 10 pedidos em 1 minuto, todos são processados na ordem correta.</li>
+<li><strong>Stream/Signal</strong> = <strong>Quadro branco</strong>: você escreve o pedido atual. Se chegar um novo antes do cozinheiro ler, o anterior é apagado.</li>
+</ul>
+<h3 id="34-resumo-visual-cada-ferramenta-para-seu-problema">3.4. Resumo Visual: Cada Ferramenta Para Seu Problema</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>┌──────────────────────────────────────────────────────────────┐
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│                    FLUXO DE LEITURA (UI)                     │
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│                                                              │
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│  Widget ← ChangeNotifier ← Controller ← Repository          │
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│                                              ↑               │
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│                                     Drift .watch() / Stream  │
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│                                                              │
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│  Ferramenta: Stream / Signal / ChangeNotifier / ValueNotifier│
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>│  Propósito: A UI reflete o ESTADO ATUAL dos dados            │
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>└──────────────────────────────────────────────────────────────┘
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>┌──────────────────────────────────────────────────────────────┐
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>│                FLUXO DE ESCRITA (Backend/Domínio)            │
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>│                                                              │
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>│  Widget → Controller → Repository → Service (Drift/API)     │
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>│                                         ↓                    │
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>│                                     EventBus                 │
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>│                                         ↓                    │
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>│                                Listener (application/)       │
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>│                                         ↓                    │
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>│                          Outro Repository / UseCase          │
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>│                                                              │
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>│  Ferramenta: Event Bus (Domain Events)                       │
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>│  Propósito: Domínios reagem a FATOS DE NEGÓCIO              │
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>└──────────────────────────────────────────────────────────────┘
+</span></code></pre></div>
+<blockquote>
+<p><strong>Regra de Ouro:</strong> A UI (Widgets, Pages, Controllers) NUNCA escuta o Event Bus. O Event Bus NUNCA é usado para leitura.</p>
+</blockquote>
+<hr>
+<h2 id="4-regras-de-uso">4. Regras de Uso</h2>
+<h3 id="41-quem-publica-eventos">4.1. Quem PUBLICA Eventos</h3>
+<p><strong>Exclusivamente os Repositories</strong>, após a persistência bem-sucedida de uma operação de escrita.</p>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// ✅ CORRETO: Publicar APÓS persistência bem-sucedida</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">Venda</span><span class="o">&gt;</span><span class="w"> </span><span class="n">finalizarVenda</span><span class="p">(</span><span class="n">Venda</span><span class="w"> </span><span class="n">venda</span><span class="p">)</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">_vendaService</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">_mapper</span><span class="p">.</span><span class="n">toDto</span><span class="p">(</span><span class="n">venda</span><span class="p">));</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">isSuccess</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">_eventBus</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">VendaFinalizadaEvent</span><span class="p">(...));</span><span class="w"> </span><span class="c1">// só publica se salvou</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">}</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1">// ❌ ERRADO: Publicar ANTES ou independente da persistência</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">Venda</span><span class="o">&gt;</span><span class="w"> </span><span class="n">finalizarVenda</span><span class="p">(</span><span class="n">Venda</span><span class="w"> </span><span class="n">venda</span><span class="p">)</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">  </span><span class="n">_eventBus</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">VendaFinalizadaEvent</span><span class="p">(...));</span><span class="w"> </span><span class="c1">// e se o save falhar?</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">_vendaService</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">_mapper</span><span class="p">.</span><span class="n">toDto</span><span class="p">(</span><span class="n">venda</span><span class="p">));</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="42-quem-consome-eventos">4.2. Quem CONSOME Eventos</h3>
+<p><strong>Exclusivamente classes <code>Listener</code></strong> na camada <code>application/listeners/</code>.</p>
+<ul>
+<li>Listeners são <strong>singletons</strong> registrados no <code>GetIt</code> (ou outro container de DI) durante a inicialização da aplicação.</li>
+<li>Não há subscribe/unsubscribe dinâmico — portanto, <strong>não há risco de vazamento de memória</strong>.</li>
+<li>Um <code>Listener</code> pode invocar um <code>Repository</code> para ações simples (mono-domínio) ou um <code>UseCase</code> para ações complexas (multi-domínio).</li>
+</ul>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Registro no GetIt (injection_container.dart ou main.dart)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">getIt</span><span class="p">.</span><span class="n">registerSingleton</span><span class="o">&lt;</span><span class="n">EstoqueListener</span><span class="o">&gt;</span><span class="p">(</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="n">EstoqueListener</span><span class="p">(</span><span class="n">getIt</span><span class="o">&lt;</span><span class="n">ProdutoRepository</span><span class="o">&gt;</span><span class="p">())</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="p">..</span><span class="n">subscribeTo</span><span class="p">(</span><span class="n">getIt</span><span class="o">&lt;</span><span class="n">EventBus</span><span class="o">&gt;</span><span class="p">()),</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">);</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">getIt</span><span class="p">.</span><span class="n">registerSingleton</span><span class="o">&lt;</span><span class="n">FinanceiroListener</span><span class="o">&gt;</span><span class="p">(</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="n">FinanceiroListener</span><span class="p">(</span><span class="n">getIt</span><span class="o">&lt;</span><span class="n">FinanceiroRepository</span><span class="o">&gt;</span><span class="p">())</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="p">..</span><span class="n">subscribeTo</span><span class="p">(</span><span class="n">getIt</span><span class="o">&lt;</span><span class="n">EventBus</span><span class="o">&gt;</span><span class="p">()),</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="p">);</span>
+</span></code></pre></div>
+<h3 id="43-matriz-de-permissoes">4.3. Matriz de Permissões</h3>
+<table>
+<thead>
+<tr>
+<th>Camada / Classe</th>
+<th>Publicar?</th>
+<th>Consumir?</th>
+<th>Motivo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Widget / Page</strong></td>
+<td>❌</td>
+<td>❌</td>
+<td>UI usa <code>ChangeNotifier</code>/<code>Signal</code>/<code>Stream</code>, não eventos</td>
+</tr>
+<tr>
+<td><strong>Controller / ViewModel</strong></td>
+<td>❌</td>
+<td>❌</td>
+<td>Consome dados via Repository, não via eventos</td>
+</tr>
+<tr>
+<td><strong>Service / DAO (Drift)</strong></td>
+<td>❌</td>
+<td>❌</td>
+<td>Camada técnica pura, sem lógica de negócio</td>
+</tr>
+<tr>
+<td><strong>Entity</strong></td>
+<td>❌</td>
+<td>❌</td>
+<td>Domínio puro, sem dependências de infra</td>
+</tr>
+<tr>
+<td><strong>Repository</strong></td>
+<td>✅</td>
+<td>❌</td>
+<td>Publica após escrita bem-sucedida</td>
+</tr>
+<tr>
+<td><strong>Listener</strong></td>
+<td>❌</td>
+<td>✅</td>
+<td>Único consumidor autorizado</td>
+</tr>
+<tr>
+<td><strong>UseCase</strong></td>
+<td>❌</td>
+<td>❌</td>
+<td>É invocado pelo Listener, não pelo EventBus diretamente</td>
+</tr>
+</tbody>
+</table>
+<h3 id="44-anatomia-de-um-evento-de-dominio">4.4. Anatomia de um Evento de Domínio</h3>
+<p>Todo evento deve ser um <strong>snapshot imutável</strong> do fato de negócio, utilizando <code>Equatable</code> para comparação e tipos seguros (<code>BigDecimal</code> para valores monetários). O consumidor <strong>nunca deve precisar consultar o banco</strong> para complementar os dados do evento.</p>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// ✅ CORRETO: Evento autossuficiente com dados completos</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kd">class</span><span class="w"> </span><span class="nc">VendaFinalizadaEvent</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">DomainEvent</span><span class="w"> </span><span class="kd">with</span><span class="w"> </span><span class="n">EquatableMixin</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">vendaId</span><span class="p">;</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">ItemVendaSnapshot</span><span class="o">&gt;</span><span class="w"> </span><span class="n">itensVendidos</span><span class="p">;</span><span class="w">  </span><span class="c1">// snapshot, não referência</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">valorTotal</span><span class="p">;</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">operadorId</span><span class="p">;</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">DateTime</span><span class="w"> </span><span class="n">dataFinalizacao</span><span class="p">;</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">VendaFinalizadaEvent</span><span class="p">({</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">vendaId</span><span class="p">,</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">itensVendidos</span><span class="p">,</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">    </span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">valorTotal</span><span class="p">,</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">    </span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">operadorId</span><span class="p">,</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">    </span><span class="kd">required</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="n">dataFinalizacao</span><span class="p">,</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">  </span><span class="p">});</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">  </span><span class="nd">@override</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">  </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="kd">get</span><span class="w"> </span><span class="n">props</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">vendaId</span><span class="p">,</span><span class="w"> </span><span class="n">dataFinalizacao</span><span class="p">];</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="p">}</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="c1">// ❌ ERRADO: Evento que exige consulta adicional</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="kd">class</span><span class="w"> </span><span class="nc">VendaFinalizadaEvent</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">DomainEvent</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="n">vendaId</span><span class="p">;</span><span class="w"> </span><span class="c1">// só o ID? O listener vai buscar no banco?</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="w">  </span><span class="c1">// Isso recria o acoplamento entre domínios que o EventBus deveria eliminar.</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Motivo:</strong> Se o evento carrega apenas o ID, o <code>EstoqueListener</code> precisaria injetar o <code>VendaRepository</code> para buscar os itens — criando dependência direta entre domínios, anulando o propósito do Event Bus.</p>
+<h3 id="45-convencoes-de-nomenclatura">4.5. Convenções de Nomenclatura</h3>
+<ul>
+<li><strong>Eventos:</strong> Substantivo + verbo no particípio passado. O nome descreve um <strong>fato consumado</strong>, não uma intenção.</li>
+<li>✅ <code>VendaFinalizadaEvent</code>, <code>PedidoCanceladoEvent</code>, <code>EstoqueAjustadoEvent</code></li>
+<li>❌ <code>FinalizarVendaEvent</code> (isso é um comando, não um evento)</li>
+<li>
+<p>❌ <code>VendaEvent</code> (genérico demais — qual fato?)</p>
+</li>
+<li>
+<p><strong>Listeners:</strong> Nome do domínio que <strong>reage</strong> + sufixo <code>Listener</code>.</p>
+</li>
+<li>✅ <code>EstoqueListener</code>, <code>FinanceiroListener</code>, <code>NotificacaoListener</code></li>
+<li>
+<p>❌ <code>VendaListener</code> (ambíguo — o domínio que publicou ou que reagiu?)</p>
+</li>
+<li>
+<p><strong>Arquivos:</strong></p>
+</li>
+<li>Eventos: <code>lib/domain/events/&lt;nome_evento&gt;.dart</code></li>
+<li>Listeners: <code>lib/application/listeners/&lt;nome_listener&gt;.dart</code></li>
+<li>Event Bus core: <code>lib/core/events/event_bus.dart</code></li>
+<li>Classe base: <code>lib/core/events/domain_event.dart</code></li>
+</ul>
+<hr>
+<h2 id="5-quando-nao-usar-o-event-bus">5. Quando NÃO Usar o Event Bus</h2>
+<h3 id="51-nao-use-para-atualizar-a-ui">5.1. Não Use Para Atualizar a UI</h3>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// ❌ NUNCA FAÇA ISSO</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kd">class</span><span class="w"> </span><span class="nc">ProdutoPage</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">StatefulWidget</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nd">@override</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="n">_ProdutoPageState</span><span class="w"> </span><span class="n">createState</span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">_ProdutoPageState</span><span class="p">();</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">}</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="kd">class</span><span class="w"> </span><span class="nc">_ProdutoPageState</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">State</span><span class="o">&lt;</span><span class="n">ProdutoPage</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="nd">@override</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">initState</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="k">super</span><span class="p">.</span><span class="n">initState</span><span class="p">();</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="n">getIt</span><span class="o">&lt;</span><span class="n">EventBus</span><span class="o">&gt;</span><span class="p">().</span><span class="kd">on</span><span class="o">&lt;</span><span class="n">EstoqueAtualizadoEvent</span><span class="o">&gt;</span><span class="p">().</span><span class="n">listen</span><span class="p">((</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">      </span><span class="n">setState</span><span class="p">(()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">_quantidade</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="n">novaQuantidade</span><span class="p">);</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">      </span><span class="c1">// Causa: vazamento de memória (listen sem cancel no dispose),</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">      </span><span class="c1">// updates fora de ordem, acoplamento da UI com eventos internos.</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="p">});</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="p">}</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="c1">// ✅ FAÇA ISSO: Use Stream reativo do Drift ou ChangeNotifier</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="kd">class</span><span class="w"> </span><span class="nc">ProdutoController</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">ChangeNotifier</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">  </span><span class="n">Stream</span><span class="o">&lt;</span><span class="n">Produto</span><span class="o">&gt;</span><span class="w"> </span><span class="n">watchProduto</span><span class="p">(</span><span class="kt">String</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">_produtoRepository</span><span class="p">.</span><span class="n">watchById</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">    </span><span class="c1">// Drift .watch() emite automaticamente quando os dados mudam no banco.</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">    </span><span class="c1">// O banco é a fonte da verdade, não o evento.</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="52-nao-use-para-comunicacao-dentro-do-mesmo-dominio">5.2. Não Use Para Comunicação Dentro do Mesmo Domínio</h3>
+<p>Se a ação afeta apenas o mesmo agregado, use uma chamada direta de método.</p>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">// ❌ EXAGERO: Evento dentro do próprio domínio</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kd">await</span><span class="w"> </span><span class="n">produtoRepository</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">produto</span><span class="p">);</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">eventBus</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">ProdutoSalvoEvent</span><span class="p">(</span><span class="n">produto</span><span class="p">));</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1">// ProdutoListener → produtoRepository.recalcularPrecoMedio(produto)</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1">// O listener chama o mesmo repository que publicou! Circular e desnecessário.</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1">// ✅ CORRETO: Lógica interna fica no próprio Repository</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="kd">class</span><span class="w"> </span><span class="nc">ProdutoRepository</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">  </span><span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">Produto</span><span class="o">&gt;</span><span class="w"> </span><span class="n">save</span><span class="p">(</span><span class="n">Produto</span><span class="w"> </span><span class="n">produto</span><span class="p">)</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">produtoComPreco</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_recalcularPrecoMedio</span><span class="p">(</span><span class="n">produto</span><span class="p">);</span><span class="w"> </span><span class="c1">// lógica interna</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">dto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_mapper</span><span class="p">.</span><span class="n">toDto</span><span class="p">(</span><span class="n">produtoComPreco</span><span class="p">);</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">_produtoService</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">dto</span><span class="p">);</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="53-nao-use-para-consultas-queries">5.3. Não Use Para Consultas (Queries)</h3>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">// ❌ NUNCA: Pedir dados via evento</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">eventBus</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">SolicitarDadosEstoqueEvent</span><span class="p">(</span><span class="n">produtoId</span><span class="p">));</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1">// Quem responde? Como recebo o retorno? Não é request-response.</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1">// ✅ CORRETO: Consulta direta via Repository</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="kd">final</span><span class="w"> </span><span class="n">estoque</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">produtoRepository</span><span class="p">.</span><span class="n">getEstoquePorId</span><span class="p">(</span><span class="n">produtoId</span><span class="p">);</span>
+</span></code></pre></div>
+<h3 id="54-nao-use-para-eventos-de-infraestrutura">5.4. Não Use Para Eventos de Infraestrutura</h3>
+<p>Eventos como "conexão caiu", "token expirou" ou "erro fatal" são eventos de <strong>infraestrutura</strong>, não de domínio. Eles devem usar um mecanismo de estado global (<code>Signal</code>, <code>ValueNotifier</code> global), mas não devem poluir o Event Bus de domínio.</p>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">// ❌ ERRADO: Misturar infraestrutura no Event Bus de domínio</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">eventBus</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">ConexaoPerdidaEvent</span><span class="p">());</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1">// ✅ CORRETO: Usar estado global para infraestrutura</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1">// Exemplo com Signal:</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="kd">final</span><span class="w"> </span><span class="n">conectividadeSignal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Signal</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1">// Exemplo com ValueNotifier:</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="kd">final</span><span class="w"> </span><span class="n">conectividadeNotifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ValueNotifier</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+</span></code></pre></div>
+<hr>
+<h2 id="6-tratamento-de-falhas-nos-listeners">6. Tratamento de Falhas nos Listeners</h2>
+<blockquote>
+<p>⚠️ <strong>O documento de arquitetura do projeto deve definir explicitamente qual estratégia adotar.</strong></p>
+</blockquote>
+<h3 id="estrategia-a-fire-and-forget-tolerante-a-falhas">Estratégia A: Fire-and-Forget (Tolerante a Falhas)</h3>
+<p>O evento é publicado e o Repository <strong>não aguarda</strong> (<code>await</code>) os Listeners terminarem. Se um Listener falhar, o erro é logado, mas a operação principal não é afetada.</p>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// O publish não é awaited</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">_eventBus</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">VendaFinalizadaEvent</span><span class="p">(...));</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="k">return</span><span class="w"> </span><span class="n">Success</span><span class="p">(</span><span class="n">venda</span><span class="p">);</span><span class="w"> </span><span class="c1">// sucesso independente dos listeners</span>
+</span></code></pre></div>
+<ul>
+<li><strong>Quando usar:</strong> Quando os efeitos colaterais são <strong>compensáveis</strong> ou <strong>não-críticos</strong> (impressão, notificação push, métricas de BI).</li>
+<li><strong>Risco:</strong> Estado temporariamente inconsistente entre domínios. Exige mecanismo de reconciliação ou retry.</li>
+</ul>
+<h3 id="estrategia-b-transacional-consistencia-forte">Estratégia B: Transacional (Consistência Forte)</h3>
+<p>O evento é publicado e o Repository <strong>aguarda</strong> todos os Listeners concluírem, idealmente dentro de uma <code>Transaction</code> do Drift.</p>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">Venda</span><span class="o">&gt;</span><span class="w"> </span><span class="n">finalizarVenda</span><span class="p">(</span><span class="n">Venda</span><span class="w"> </span><span class="n">venda</span><span class="p">)</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">_database</span><span class="p">.</span><span class="n">transaction</span><span class="p">(()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="kd">await</span><span class="w"> </span><span class="n">_vendaService</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">dto</span><span class="p">);</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">resultados</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">await</span><span class="w"> </span><span class="n">_eventBus</span><span class="p">.</span><span class="n">publishAndWait</span><span class="p">(</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">      </span><span class="n">VendaFinalizadaEvent</span><span class="p">(...),</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="p">);</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">resultados</span><span class="p">.</span><span class="n">any</span><span class="p">((</span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">isError</span><span class="p">()))</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">      </span><span class="k">throw</span><span class="w"> </span><span class="n">RollbackException</span><span class="p">(</span><span class="s1">'Falha em listener crítico'</span><span class="p">);</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Success</span><span class="p">(</span><span class="n">venda</span><span class="p">);</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">  </span><span class="p">});</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="p">}</span>
+</span></code></pre></div>
+<ul>
+<li><strong>Quando usar:</strong> Quando os efeitos colaterais são <strong>críticos para a integridade do negócio</strong> (baixa de estoque em sistema financeiro/fiscal).</li>
+<li><strong>Risco:</strong> Performance reduzida. O Listener mais lento define o tempo total. Complexidade de rollback.</li>
+</ul>
+<h3 id="estrategia-c-hibrida-recomendada">Estratégia C: Híbrida (Recomendada)</h3>
+<p>Classificar cada Listener como <strong>crítico</strong> ou <strong>não-crítico</strong>:
+- <strong>Críticos</strong> (estoque, financeiro): Executados de forma síncrona dentro da mesma transação do Drift.
+- <strong>Não-críticos</strong> (impressão, notificação): Executados de forma assíncrona com <code>unawaited()</code>, com retry e logging.</p>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">AsyncResult</span><span class="o">&lt;</span><span class="n">Venda</span><span class="o">&gt;</span><span class="w"> </span><span class="n">finalizarVenda</span><span class="p">(</span><span class="n">Venda</span><span class="w"> </span><span class="n">venda</span><span class="p">)</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">_database</span><span class="p">.</span><span class="n">transaction</span><span class="p">(()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="kd">await</span><span class="w"> </span><span class="n">_vendaService</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">dto</span><span class="p">);</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="c1">// Listeners críticos — dentro da transação</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="kd">await</span><span class="w"> </span><span class="n">_eventBus</span><span class="p">.</span><span class="n">publishCritical</span><span class="p">(</span><span class="n">VendaFinalizadaEvent</span><span class="p">(...));</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Success</span><span class="p">(</span><span class="n">venda</span><span class="p">);</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">  </span><span class="p">});</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">  </span><span class="c1">// Listeners não-críticos — fora da transação, fire-and-forget</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">  </span><span class="n">_eventBus</span><span class="p">.</span><span class="n">publishAsync</span><span class="p">(</span><span class="n">VendaFinalizadaEvent</span><span class="p">(...));</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr>
+<h2 id="7-comparativo-event-bus-vs-alternativas-no-ecossistema-flutter">7. Comparativo: Event Bus vs. Alternativas no Ecossistema Flutter</h2>
+<h3 id="71-event-bus-vs-stream-drift-watch-signal-valuenotifier">7.1. Event Bus vs. Stream (Drift <code>.watch()</code>) / Signal / ValueNotifier</h3>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th>Event Bus</th>
+<th>Stream / Signal / ValueNotifier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Propósito</strong></td>
+<td>Reagir a fatos de negócio entre domínios</td>
+<td>Observar estado atual dos dados para a UI</td>
+</tr>
+<tr>
+<td><strong>Quem usa</strong></td>
+<td><code>Listener</code> (camada <code>application/</code>)</td>
+<td><code>Controller</code>/<code>Widget</code> (camada <code>ui/</code>)</td>
+</tr>
+<tr>
+<td><strong>Semântica</strong></td>
+<td><em>"Isso aconteceu"</em> (passado, discreto)</td>
+<td><em>"Esses são os dados agora"</em> (presente, contínuo)</td>
+</tr>
+<tr>
+<td><strong>Duplicatas</strong></td>
+<td>Cada evento é único e processado</td>
+<td>Deduplica — emite apenas último estado</td>
+</tr>
+<tr>
+<td><strong>Carrega intenção?</strong></td>
+<td>✅ Sim (criou, cancelou, finalizou)</td>
+<td>❌ Não (apenas dados brutos)</td>
+</tr>
+<tr>
+<td><strong>Risco de memory leak</strong></td>
+<td>Nenhum (listeners são singletons no <code>GetIt</code>)</td>
+<td>Existe se <code>StreamSubscription</code> não for cancelada no <code>dispose()</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-event-bus-vs-bloc-cubit">7.2. Event Bus vs. Bloc / Cubit</h3>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th>Event Bus (Domain Events)</th>
+<th>Bloc (Events → States)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Escopo</strong></td>
+<td>Comunicação entre domínios backend</td>
+<td>Gerenciamento de estado de uma feature/página</td>
+</tr>
+<tr>
+<td><strong>Direção</strong></td>
+<td>Um-para-muitos (broadcast)</td>
+<td>Um-para-um (event → state)</td>
+</tr>
+<tr>
+<td><strong>Retorno</strong></td>
+<td>Nenhum (fire-and-forget)</td>
+<td>Produz um novo State para a UI</td>
+</tr>
+<tr>
+<td><strong>Acoplamento</strong></td>
+<td>Publicador não conhece consumidores</td>
+<td>Bloc conhece seus Events e States</td>
+</tr>
+<tr>
+<td><strong>Uso ideal</strong></td>
+<td>Efeitos colaterais em cascata entre domínios</td>
+<td>Controle de estado complexo de uma página</td>
+</tr>
+</tbody>
+</table>
+<h3 id="73-event-bus-vs-chamada-direta-de-metodo">7.3. Event Bus vs. Chamada Direta de Método</h3>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th>Event Bus</th>
+<th>Chamada Direta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Acoplamento</strong></td>
+<td>Zero (publicador não sabe quem consome)</td>
+<td>Total (chamador depende do chamado)</td>
+</tr>
+<tr>
+<td><strong>Escalabilidade</strong></td>
+<td>Adicionar efeito = adicionar <code>Listener</code></td>
+<td>Adicionar efeito = modificar chamador</td>
+</tr>
+<tr>
+<td><strong>Rastreabilidade</strong></td>
+<td>Requer logging/tooling</td>
+<td>Stack trace direto no debugger</td>
+</tr>
+<tr>
+<td><strong>Quando usar</strong></td>
+<td>Efeitos colaterais <strong>entre</strong> domínios</td>
+<td>Lógica <strong>dentro</strong> do mesmo domínio</td>
+</tr>
+</tbody>
+</table>
+<h3 id="74-event-bus-vs-event-sourcing">7.4. Event Bus vs. Event Sourcing</h3>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th>Event Bus</th>
+<th>Event Sourcing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Persistência</strong></td>
+<td>Eventos são efêmeros (não salvos no banco)</td>
+<td>Eventos são a fonte da verdade (persistidos)</td>
+</tr>
+<tr>
+<td><strong>Reconstrução de estado</strong></td>
+<td>Impossível (estado está no SQLite/Drift)</td>
+<td>Possível (replay de eventos)</td>
+</tr>
+<tr>
+<td><strong>Complexidade</strong></td>
+<td>Baixa</td>
+<td>Alta</td>
+</tr>
+<tr>
+<td><strong>Quando usar</strong></td>
+<td>Comunicação interna entre domínios</td>
+<td>Auditoria completa, CQRS avançado, sistemas financeiros regulados</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="8-implementacao-minima-de-referencia">8. Implementação Mínima de Referência</h2>
+<h3 id="81-classe-base-domainevent">8.1. Classe Base <code>DomainEvent</code></h3>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1">// lib/core/events/domain_event.dart</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">DomainEvent</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">DateTime</span><span class="w"> </span><span class="n">timestamp</span><span class="p">;</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="n">DomainEvent</span><span class="p">()</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateTime</span><span class="p">.</span><span class="n">now</span><span class="p">();</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="82-event-bus">8.2. Event Bus</h3>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1">// lib/core/events/event_bus.dart</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">import</span><span class="w"> </span><span class="s1">'dart:async'</span><span class="p">;</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="kd">class</span><span class="w"> </span><span class="nc">EventBus</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">_controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">StreamController</span><span class="o">&lt;</span><span class="n">DomainEvent</span><span class="o">&gt;</span><span class="p">.</span><span class="n">broadcast</span><span class="p">();</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">publish</span><span class="p">(</span><span class="n">DomainEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">    </span><span class="n">_controller</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">event</span><span class="p">);</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">  </span><span class="n">Stream</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="kd">on</span><span class="o">&lt;</span><span class="n">T</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">DomainEvent</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">_controller</span><span class="p">.</span><span class="n">stream</span><span class="p">.</span><span class="n">whereType</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">();</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">dispose</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="w">    </span><span class="n">_controller</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="83-listener-base">8.3. Listener Base</h3>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1">// lib/application/listeners/base_listener.dart</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">import</span><span class="w"> </span><span class="s1">'dart:async'</span><span class="p">;</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">BaseListener</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">StreamSubscription</span><span class="o">&gt;</span><span class="w"> </span><span class="n">_subscriptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">subscribeTo</span><span class="p">(</span><span class="n">EventBus</span><span class="w"> </span><span class="n">eventBus</span><span class="p">);</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">addSubscription</span><span class="p">(</span><span class="n">StreamSubscription</span><span class="w"> </span><span class="n">subscription</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="n">_subscriptions</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">subscription</span><span class="p">);</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">dispose</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">final</span><span class="w"> </span><span class="n">sub</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">_subscriptions</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="w">      </span><span class="n">sub</span><span class="p">.</span><span class="n">cancel</span><span class="p">();</span>
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="84-exemplo-completo-de-listener">8.4. Exemplo Completo de Listener</h3>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1">// lib/application/listeners/estoque_listener.dart</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="kd">class</span><span class="w"> </span><span class="nc">EstoqueListener</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">BaseListener</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">ProdutoRepository</span><span class="w"> </span><span class="n">_produtoRepository</span><span class="p">;</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">  </span><span class="n">EstoqueListener</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">_produtoRepository</span><span class="p">);</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">  </span><span class="nd">@override</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">subscribeTo</span><span class="p">(</span><span class="n">EventBus</span><span class="w"> </span><span class="n">eventBus</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">    </span><span class="n">addSubscription</span><span class="p">(</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">      </span><span class="n">eventBus</span><span class="p">.</span><span class="kd">on</span><span class="o">&lt;</span><span class="n">VendaFinalizadaEvent</span><span class="o">&gt;</span><span class="p">().</span><span class="n">listen</span><span class="p">(</span><span class="n">_onVendaFinalizada</span><span class="p">),</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="w">    </span><span class="p">);</span>
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="w">    </span><span class="n">addSubscription</span><span class="p">(</span>
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">      </span><span class="n">eventBus</span><span class="p">.</span><span class="kd">on</span><span class="o">&lt;</span><span class="n">VendaCanceladaEvent</span><span class="o">&gt;</span><span class="p">().</span><span class="n">listen</span><span class="p">(</span><span class="n">_onVendaCancelada</span><span class="p">),</span>
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="w">    </span><span class="p">);</span>
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">_onVendaFinalizada</span><span class="p">(</span><span class="n">VendaFinalizadaEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a><span class="w">    </span><span class="n">_produtoRepository</span><span class="p">.</span><span class="n">darBaixaDeEstoquePorVenda</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">itensVendidos</span><span class="p">);</span>
+</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>
+</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="n">_onVendaCancelada</span><span class="p">(</span><span class="n">VendaCanceladaEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a><span class="w">    </span><span class="n">_produtoRepository</span><span class="p">.</span><span class="n">estornarEstoquePorVenda</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="n">itensVendidos</span><span class="p">);</span>
+</span><span id="__span-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="85-registro-no-container-de-di">8.5. Registro no Container de DI</h3>
+<div class="language-dart highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1">// lib/core/config/injection_container.dart</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="kt">void</span><span class="w"> </span><span class="n">setupListeners</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="c1">// Event Bus (singleton)</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span><span class="n">getIt</span><span class="p">.</span><span class="n">registerSingleton</span><span class="o">&lt;</span><span class="n">EventBus</span><span class="o">&gt;</span><span class="p">(</span><span class="n">EventBus</span><span class="p">());</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">  </span><span class="c1">// Listeners (singletons, registrados com subscribe automático)</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">  </span><span class="n">getIt</span><span class="p">.</span><span class="n">registerSingleton</span><span class="o">&lt;</span><span class="n">EstoqueListener</span><span class="o">&gt;</span><span class="p">(</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">    </span><span class="n">EstoqueListener</span><span class="p">(</span><span class="n">getIt</span><span class="o">&lt;</span><span class="n">ProdutoRepository</span><span class="o">&gt;</span><span class="p">())</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">      </span><span class="p">..</span><span class="n">subscribeTo</span><span class="p">(</span><span class="n">getIt</span><span class="o">&lt;</span><span class="n">EventBus</span><span class="o">&gt;</span><span class="p">()),</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">  </span><span class="p">);</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="w">  </span><span class="n">getIt</span><span class="p">.</span><span class="n">registerSingleton</span><span class="o">&lt;</span><span class="n">FinanceiroListener</span><span class="o">&gt;</span><span class="p">(</span>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">    </span><span class="n">FinanceiroListener</span><span class="p">(</span><span class="n">getIt</span><span class="o">&lt;</span><span class="n">FinanceiroRepository</span><span class="o">&gt;</span><span class="p">())</span>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="w">      </span><span class="p">..</span><span class="n">subscribeTo</span><span class="p">(</span><span class="n">getIt</span><span class="o">&lt;</span><span class="n">EventBus</span><span class="o">&gt;</span><span class="p">()),</span>
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="w">  </span><span class="p">);</span>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr>
+<h2 id="9-checklist-de-implementacao">9. Checklist de Implementação</h2>
+<p>Ao implementar o Event Bus no projeto, verifique:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled=""><span class="task-list-indicator"></span></label> Eventos são publicados <strong>apenas por Repositories</strong>, após persistência bem-sucedida.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled=""><span class="task-list-indicator"></span></label> Listeners estão na camada <code>application/listeners/</code>, não na UI nem no domínio puro.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled=""><span class="task-list-indicator"></span></label> Listeners são <strong>singletons</strong> registrados no <code>GetIt</code> no boot da aplicação.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled=""><span class="task-list-indicator"></span></label> <strong>Nenhum Widget, Page ou Controller</strong> escuta o Event Bus diretamente.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled=""><span class="task-list-indicator"></span></label> Eventos carregam <strong>snapshots completos</strong> — consumidores não consultam o banco.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled=""><span class="task-list-indicator"></span></label> Eventos são <strong>imutáveis</strong> — nenhum campo pode ser alterado após criação.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled=""><span class="task-list-indicator"></span></label> Nomes de eventos são <strong>fatos no passado</strong> (<code>PedidoCriadoEvent</code>, não <code>CriarPedidoEvent</code>).</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled=""><span class="task-list-indicator"></span></label> Estratégia de falha está <strong>definida no documento de arquitetura</strong> (fire-and-forget, transacional ou híbrida).</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled=""><span class="task-list-indicator"></span></label> Event Bus <strong>não é usado para queries</strong> — para isso, use consulta direta ao Repository.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled=""><span class="task-list-indicator"></span></label> Event Bus <strong>não é usado para comunicação intra-domínio</strong> — para isso, use chamada de método.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled=""><span class="task-list-indicator"></span></label> Event Bus <strong>não é usado para eventos de infraestrutura</strong> (conectividade, auth) — para isso, use Signal/ValueNotifier global.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled=""><span class="task-list-indicator"></span></label> Valores monetários nos eventos usam <code>BigDecimal</code>, não <code>double</code>.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled=""><span class="task-list-indicator"></span></label> IDs nos eventos são <code>String</code> (UUID), não <code>int</code>.</li>
+</ul>
+<hr>
+<h2 id="10-resumo-executivo">10. Resumo Executivo</h2>
+<ol>
+<li>O Event Bus é usado <strong>exclusivamente</strong> para efeitos colaterais entre domínios no <strong>fluxo de escrita</strong>.</li>
+<li><strong>Repositories publicam</strong> eventos após persistência. <strong>Listeners consomem</strong> eventos na camada <code>application/</code>.</li>
+<li>A <strong>UI nunca</strong> interage com o Event Bus. Ela usa <code>ChangeNotifier</code>, <code>Signal</code>, <code>ValueNotifier</code> ou <code>Stream</code> (Drift <code>.watch()</code>).</li>
+<li>Eventos são <strong>snapshots imutáveis e autossuficientes</strong> — o consumidor nunca precisa consultar o banco.</li>
+<li>O Event Bus <strong>não substitui</strong> e <strong>não é substituído</strong> por Streams, Signals ou Bloc. São ferramentas <strong>complementares</strong> para problemas <strong>diferentes</strong>.</li>
+<li>As críticas comuns ao Event Bus (memory leak, imprevisibilidade, falta de rastreabilidade) se aplicam ao <strong>uso incorreto na camada de UI</strong> e não ao uso correto como <strong>mediador de domínio na camada de aplicação</strong>.</li>
+</ol>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.expand", "search.suggest", "search.highlight", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
